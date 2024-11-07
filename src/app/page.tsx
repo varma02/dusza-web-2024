@@ -1,6 +1,7 @@
+import { Button } from "@nextui-org/react";
 
 export default function Home() {
   return (
-    <h1>hello world</h1>
+    <Button color="primary">Hello, World!</Button>
   );
 }

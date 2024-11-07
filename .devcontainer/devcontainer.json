@@ -34,7 +34,9 @@
 		"vscode": {
 			"extensions": [
 				"mtxr.sqltools",
-				"mtxr.sqltools-driver-mysql"
+				"mtxr.sqltools-driver-mysql",
+				"Prisma.prisma",
+				"bradlc.vscode-tailwindcss"
 			]
 		}
 	}
