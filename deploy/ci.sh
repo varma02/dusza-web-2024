@@ -32,13 +32,24 @@ check_and_restart() {
     echo "Pulling changes..."
     
     # Pull the latest changes
-    git pull origin main
+    if ! git pull origin main; then
+      echo "Error pulling changes. Please check the error message above."
+      exec bash
+    fi
 
-    # Install dependencies
-    npm install
-
-    # Apply database migrations
-    npx prisma migrate deploy
+    # Rebuild the application
+    if ! npm install; then
+      echo "Error during npm install. Please check the error message above."
+      exec bash
+    fi
+    if ! npx prisma migrate deploy; then
+      echo "Error during Prisma migration. Please check the error message above."
+      exec bash
+    fi
+    if ! npm run build; then
+      echo "Error during build. Please check the error message above."
+      exec bash
+    fi
 
     # Start a new screen session and run the application
     start_screen $APP_NAME "cd $REPO_DIR && npm run start"
@@ -47,8 +58,10 @@ check_and_restart() {
 
 # Function to start the CI script in a screen session
 start_ci() {
+  npm run build
   start_screen $APP_NAME "cd $REPO_DIR && npm run start"
   start_screen $CI_SCREEN_NAME "$0 inside_screen"
+  echo "CI script and APP started."
 }
 
 # Function to stop the CI script
