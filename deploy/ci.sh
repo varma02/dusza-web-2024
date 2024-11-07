@@ -34,21 +34,21 @@ check_and_restart() {
     # Pull the latest changes
     if ! git pull origin main; then
       echo "Error pulling changes. Please check the error message above."
-      exec bash
+      return
     fi
 
     # Rebuild the application
     if ! npm install; then
       echo "Error during npm install. Please check the error message above."
-      exec bash
+      return
     fi
     if ! npx prisma migrate deploy; then
       echo "Error during Prisma migration. Please check the error message above."
-      exec bash
+      return
     fi
     if ! npm run build; then
       echo "Error during build. Please check the error message above."
-      exec bash
+      return
     fi
 
     # Start a new screen session and run the application
