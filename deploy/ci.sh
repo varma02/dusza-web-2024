@@ -82,7 +82,7 @@ case "$1" in
   attach)
     screen -r $APP_NAME
     ;;
-  attach\ ci)
+  attach_ci)
     screen -r $CI_SCREEN_NAME
     ;;
   inside_screen)
