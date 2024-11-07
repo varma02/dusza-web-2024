@@ -58,6 +58,7 @@ check_and_restart() {
 
 # Function to start the CI script in a screen session
 start_ci() {
+  npm install
   npm run build
   start_screen $APP_NAME "cd $REPO_DIR && npm run start"
   start_screen $CI_SCREEN_NAME "$0 inside_screen"
@@ -78,6 +79,12 @@ case "$1" in
   stop)
     stop_ci
     ;;
+  attach)
+    screen -r $APP_NAME
+    ;;
+  attach\ ci)
+    screen -r $CI_SCREEN_NAME
+    ;;
   inside_screen)
     while true; do
       check_and_restart
@@ -85,7 +92,7 @@ case "$1" in
     done
     ;;
   *)
-    echo "Usage: $0 {start|stop}"
+    echo "Usage: $0 {start|stop|attach|attach ci}"
     exit 1
     ;;
 esac
