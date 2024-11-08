@@ -28,7 +28,6 @@ model User {
 
 model School {
   id            String @id @default(uuid())
-  
   name          String
   address       String
   contact_email String

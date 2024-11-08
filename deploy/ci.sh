@@ -46,6 +46,10 @@ check_and_restart() {
       echo "Error during Prisma migration. Please check the error message above."
       return
     fi
+    if ! npx prisma generate; then
+      echo "Error during Prisma Client generation. Please check the error message above."
+      return
+    fi
     if ! npm run build; then
       echo "Error during build. Please check the error message above."
       return
@@ -59,6 +63,7 @@ check_and_restart() {
 # Function to start the CI script in a screen session
 start_ci() {
   npm install
+  npx prisma generate
   npm run build
   start_screen $APP_NAME "cd $REPO_DIR && npm run start"
   start_screen $CI_SCREEN_NAME "$0 inside_screen"
