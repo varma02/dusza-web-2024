@@ -13,7 +13,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Test {
-  id   Int    @id @default(autoincrement())
-  text String
+model User {
+  id       String @id @default(uuid())
+  username String @unique
+  password String
+  role     Int    @default(1)
+  created_at DateTime @default(now())
+
+  notifications_created Notifications[]
+  categories_created Category[]
+  programming_languages_created ProgrammingLanguage[]
+  school School?
+}
+
+model School {
+  id            String @id @default(uuid())
+  
+  name          String
+  address       String
+  contact_email String
+  contact_name  String
+  teams         Team[]
+  created_at    DateTime @default(now())
+  user_id       String @unique
+  user          User   @relation(fields: [user_id], references: [id])
+}
+
+model TeamMember {
+  id     String @id @default(uuid())
+  name   String
+  grade  Int
+  substitute Boolean
+  team_id String
+  team    Team   @relation(fields: [team_id], references: [id])
+  created_at DateTime @default(now())
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String
+  teams Team[]
+  valid_from DateTime
+  valid_until DateTime
+  created_at DateTime @default(now())
+  created_by String
+  user User @relation(fields: [created_by], references: [id])
+}
+
+model ProgrammingLanguage {
+  id   String @id @default(uuid())
+  name String
+  teams Team[]
+  created_at DateTime @default(now())
+  created_by String
+  user User @relation(fields: [created_by], references: [id])
+}
+
+model Team {
+  id        String @id @default(uuid())
+  name      String
+  school_id String
+  school    School @relation(fields: [school_id], references: [id])
+  teachers  Json
+  members   TeamMember[]
+  category_id String
+  category Category @relation(fields: [category_id], references: [id])
+  programming_language_id String
+  programming_language ProgrammingLanguage @relation(fields: [programming_language_id], references: [id])
+  notifications Notifications[]
+  created_at DateTime @default(now())
+  approved Boolean
+  approved_at DateTime
+  approved_by_id String
+  approved_by User @relation(fields: [approved_by_id], references: [id])
+}
+
+model Notifications {
+  id        String @id @default(uuid())
+  type      String
+  team_id   String
+  team      Team   @relation(fields: [team_id], references: [id])
+  created_at DateTime @default(now())
+  created_by String
+  user User @relation(fields: [created_by], references: [id])
 }
