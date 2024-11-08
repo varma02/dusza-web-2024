@@ -20,10 +20,12 @@ model User {
   role     Int    @default(1)
   created_at DateTime @default(now())
 
+  school School?
+  team Team?
+
   notifications_created Notifications[]
   categories_created Category[]
   programming_languages_created ProgrammingLanguage[]
-  school School?
 }
 
 model School {
@@ -83,6 +85,8 @@ model Team {
   created_at DateTime @default(now())
   approved Boolean
   approved_at DateTime
+  user_id String @unique
+  user User @relation(fields: [user_id], references: [id])
 }
 
 model Notifications {
