@@ -3,7 +3,7 @@
 import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button, Image } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-
+import Logo from "@/assets/logo-min.webp";
 
 export default function MyNavbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +33,7 @@ export default function MyNavbar() {
 
       <NavbarContent justify="start">
         <NavbarBrand className="gap-4">
-          <Image height="2.5rem" src="logo-min.webp" alt="AI generált logo" />
+          <Image height="2.5rem" src={Logo.src} alt="AI generált logo" />
           <p className="font-bold text-inherit">VJF</p>
         </NavbarBrand>
       </NavbarContent>
