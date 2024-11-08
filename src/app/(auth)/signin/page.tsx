@@ -36,7 +36,7 @@ const SignInPage = () => {
   return (
     <Card className="w-full max-w-lg">
       <CardHeader>
-        <h1 className="w-full text-center text-2xl">Bejelentkezés</h1>
+        <h1 className="w-full text-center text-2xl font-semibold">Bejelentkezés</h1>
       </CardHeader>
       <CardBody>
         <form
@@ -51,7 +51,6 @@ const SignInPage = () => {
             variant="bordered"
             isInvalid={errors.username !== undefined}
             errorMessage={errors.username?.message}
-            onChange={() => setGlobalError(undefined)}
           />
           <Input
             {...register("password")}
@@ -61,9 +60,8 @@ const SignInPage = () => {
             variant="bordered"
             isInvalid={errors.password !== undefined}
             errorMessage={errors.password?.message}
-            onChange={() => setGlobalError(undefined)}
           />
-          { globalError && <p className="text-danger">{globalError}</p> }
+          { globalError && <p className="text-center text-danger">{globalError}</p> }
           <Button
             className="w-full"
             type="submit"
