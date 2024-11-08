@@ -84,8 +84,6 @@ model Team {
   created_at DateTime @default(now())
   approved Boolean
   approved_at DateTime
-  approved_by_id String
-  approved_by User @relation(fields: [approved_by_id], references: [id])
 }
 
 model Notifications {
