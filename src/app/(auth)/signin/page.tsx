@@ -3,13 +3,13 @@
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useState } from "react"
+import { Suspense, useState } from "react"
 import { useSearchParams } from "next/navigation"
 
 import { signInSchema } from "@/schemas/signInSchema"
 import { handleCredentialsSignIn } from "@/actions/authActions"
 
-import { Card, CardBody, CardHeader, Input, Button } from "@nextui-org/react"
+import { Card, CardBody, CardHeader, Input, Button, Spinner } from "@nextui-org/react"
 import { MdVisibility, MdVisibilityOff } from "react-icons/md"
 
 const SignInPage = () => {
@@ -85,4 +85,10 @@ const SignInPage = () => {
   )
 }
 
-export default SignInPage
+export default function SignIn() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <SignInPage />
+    </Suspense>
+  )
+}
