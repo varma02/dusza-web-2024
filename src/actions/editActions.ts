@@ -25,7 +25,7 @@ export const handleTeamEdit = async ({
     await prisma.team.update({
       where: { id },
       data: {
-        teachers: teachers.split(",").map(teacher => teacher.trim()),
+        teachers: teachers.trim().replace(", ", ","),
         category_id: category,
         programming_language_id: programming_language
       }

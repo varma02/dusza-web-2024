@@ -4,7 +4,7 @@ import TableView from "@/components/TableView";
 import { MdTextSnippet } from "react-icons/md";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Textarea, useDisclosure } from "@nextui-org/react";
 import { useEffect, useState } from "react";
-import { handleHiánypótlás, organizerLoadRegistrations } from "@/actions/registrations";
+import { handleHiánypótlás, organizerLoadRegistrations } from "@/actions/organizerActions";
 
 const columns = [
   {name: "ID", uid: "id", sortable: true},

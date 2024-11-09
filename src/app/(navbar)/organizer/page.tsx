@@ -4,7 +4,7 @@ import { Bar, BarChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } 
 import { Card, CardBody, CardHeader, Link, CardFooter, Button, ScrollShadow, CheckboxGroup, Checkbox, Spinner, RadioGroup, Radio, Divider } from "@nextui-org/react";
 import { MdChevronRight, MdFilterAltOff } from "react-icons/md";
 import { useEffect, useMemo, useState } from "react";
-import { organizerLoadDashboard } from "@/actions/registrations";
+import { organizerLoadDashboard } from "@/actions/organizerActions";
 
 export default function OrganizerDashboard() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);

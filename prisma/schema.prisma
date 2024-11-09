@@ -80,7 +80,7 @@ model Team {
   notifications Notifications[]
   created_at DateTime @default(now())
   approved Boolean @default(false)
-  approved_at DateTime?
+  approved_by_school Boolean @default(false)
   user_id String @unique
   user User @relation(fields: [user_id], references: [id])
 }

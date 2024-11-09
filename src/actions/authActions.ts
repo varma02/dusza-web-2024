@@ -46,7 +46,7 @@ export const handleSignUp = async (values: unknown) => {
 
     const team = await prisma.team.create({
       data: {
-        user_id: user.id, name, school_id: school, teachers: teachers.split(",").map(teacher => teacher.trim()), category_id: category, programming_language_id: programming_language, approved: false, approved_at: new Date(0)
+        user_id: user.id, name, school_id: school, teachers: teachers.trim().replace(', ', ','), category_id: category, programming_language_id: programming_language,
       }
     })
   

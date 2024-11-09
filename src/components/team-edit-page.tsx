@@ -45,7 +45,7 @@ export const TeamEditPage = ({
       member_3_grade: String(fixMembers.at(2)?.grade),
       member_sub_name: subMember?.name,
       member_sub_grade: String(subMember?.grade || ""),
-      teachers: (team?.teachers as string[]).join(", "),
+      teachers: team?.teachers,
       category: category?.id,
       programming_language: programmingLanguage?.id,
     }
@@ -283,7 +283,7 @@ export const TeamEditPage = ({
               <Divider className="flex-1" />
             </div>
             <li className="flex flex-wrap gap-2">
-              {(team?.teachers as string[]).map(teacher => (
+              {team && (team.teachers.split(',')).map(teacher => (
                 <ul key={teacher}>
                   <Chip className="break-words">{teacher}</Chip>
                 </ul>
