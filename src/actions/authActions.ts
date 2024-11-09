@@ -2,9 +2,9 @@
 
 import { signIn, signOut } from "@/auth"
 import prisma from "@/lib/db"
-
 import { AuthError } from "next-auth"
 import { signUpSchema } from "@/schemas/signUpSchema"
+import { hashSync } from "bcryptjs"
 
 export const handleCredentialsSignIn = async (
   {
@@ -19,16 +19,9 @@ export const handleCredentialsSignIn = async (
   try {
     await signIn("credentials", { username, password, redirectTo: callbackUrl })
   } catch (error) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case "CredentialsSignin":
-          return {
-            message: "Helytelen adatok kerültek megadásra"
-          }
-        default:
-          return {
-            message: "Váratlan hiba történt"
-          }
+    if (error instanceof AuthError && error.type === "CredentialsSignin") {
+      return {
+        message: "Helytelen felhasználónév és/vagy jelszó"
       }
     }
 
@@ -43,7 +36,19 @@ export const handleSignUp = async (values: unknown) => {
     message: "Hibás adatok kerültek megadásra!"
   }
 
-  const { name, school, teachers, category, programming_language } = parsedValues.data
+  const { username, password, name, school, teachers, category, programming_language } = parsedValues.data
+
+  try {
+    await prisma.user.create({ data: {
+      username,
+      password: hashSync(password, 10)
+    } })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return {
+      message: "Már létezik felhasználó ezzel a névvel",
+    }
+  }
 
   const team = await prisma.team.create({
     data: {

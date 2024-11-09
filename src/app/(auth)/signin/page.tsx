@@ -10,9 +10,11 @@ import { signInSchema } from "@/schemas/signInSchema"
 import { handleCredentialsSignIn } from "@/actions/authActions"
 
 import { Card, CardBody, CardHeader, Input, Button } from "@nextui-org/react"
+import { MdVisibility, MdVisibilityOff } from "react-icons/md"
 
 const SignInPage = () => {
   const searchParams = useSearchParams()
+  const [ isPasswordVisible, setIsPasswordVisible ] = useState(false)
   const [ globalError, setGlobalError ] = useState<string>()
 
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<z.infer<typeof signInSchema>>({
@@ -34,7 +36,7 @@ const SignInPage = () => {
   }
 
   return (
-    <Card className="w-full max-w-lg">
+    <Card className="w-full max-w-lg p-4">
       <CardHeader>
         <h1 className="w-full text-center text-2xl font-semibold">Bejelentkezés</h1>
       </CardHeader>
@@ -54,16 +56,25 @@ const SignInPage = () => {
           />
           <Input
             {...register("password")}
-            type="password"
+            type={isPasswordVisible ? "text" : "password"}
             label="Jelszó"
             placeholder="Adja meg jelszavát"
             variant="bordered"
             isInvalid={errors.password !== undefined}
             errorMessage={errors.password?.message}
+            endContent={
+              <button className="focus:outline-none" type="button" onClick={() => setIsPasswordVisible(!isPasswordVisible)} aria-label="toggle password visibility">
+              {isPasswordVisible ? (
+                <MdVisibilityOff className="text-2xl text-default-400 pointer-events-none" />
+              ) : (
+                <MdVisibility className="text-2xl text-default-400 pointer-events-none" />
+              )}
+            </button>
+            }
           />
           { globalError && <p className="text-center text-danger">{globalError}</p> }
           <Button
-            className="w-full"
+            className="w-full mt-4"
             type="submit"
             color="primary"
             isLoading={isSubmitting}

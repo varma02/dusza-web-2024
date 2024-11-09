@@ -1,25 +1,27 @@
 'use client'
 
-import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Button, Image } from "@nextui-org/react";
+import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Image, Button } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+
 import Logo from "@/assets/logo-min.webp";
+import { MdLogout } from "react-icons/md"
 
-export default function MyNavbar() {
+import { UserRole } from "@/types";
+import { User } from "next-auth";
+import { handleSignOut } from "@/actions/authActions";
+
+
+export default function MyNavbar({ user }: { user: User | undefined }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const pathName = usePathname();
 
-  const menuItems = "szervezo" ? [
-    {href: "/organizer", label: "Irányítópult"},
-    {href: "/organizer/registrations", label: "Regisztrációk"},
-    {href: "/organizer/categories", label: "Kategóriák"},
-    {href: "/organizer/schools", label: "Iskolák"},
-  ] : "iskola" ? [
-
-  ] : "csapattag" ? [
-
-  ] : [];
+  const menuItems = [
+    {href: "/organizer", label: "Irányítópult", roles: [ UserRole.Organizer ] },
+    {href: "/organizer/registrations", label: "Regisztrációk", roles: [ UserRole.Organizer ]},
+    {href: "/organizer/categories", label: "Kategóriák", roles: [ UserRole.Organizer ]},
+    {href: "/organizer/schools", label: "Iskolák", roles: [ UserRole.Organizer ]},
+  ]
 
   return (
     <Navbar
@@ -39,35 +41,59 @@ export default function MyNavbar() {
         </NavbarBrand>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        {menuItems.map((item) => (
-          <NavbarItem key={item.href}>
-            <Link href={item.href} 
-            color={pathName == item.href ? "primary": "foreground"}
-            aria-current={pathName == item.href ? "page": "false"}>
-              {item.label}
-            </Link>
-          </NavbarItem>
-        ))}
-      </NavbarContent>
+      {
+        user?.role ? (
+          <NavbarContent className="hidden sm:flex gap-4" justify="center">
+            {menuItems.map((item) => (
+              item.roles === undefined || item.roles.includes(user?.role) ? (
+                <NavbarItem key={item.href}>
+                  <Link href={item.href} 
+                  color={pathName == item.href ? "primary": "foreground"}
+                  aria-current={pathName == item.href ? "page": "false"}>
+                    {item.label}
+                  </Link>
+                </NavbarItem>
+              ) : null
+            ))}
+          </NavbarContent>
+        ) : null
+      }
 
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          user avatar here
+          {user?.name}
+        </NavbarItem>
+        <NavbarItem>
+          <form action={handleSignOut}>
+            <Button
+              type="submit"
+              isIconOnly
+              variant="light"
+              color="primary"
+            >
+              <MdLogout className="p-0" />
+            </Button>
+          </form>
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="gap-5">
-        {menuItems.map((item) => (
-          <NavbarMenuItem key={item.href}>
-            <Link href={item.href} className="text-2xl"
-            color={pathName == item.href ? "primary": "foreground"}
-            aria-current={pathName == item.href ? "page": "false"}>
-              {item.label}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu>
+      {
+        user?.role ? (
+          <NavbarMenu className="gap-5">
+            {menuItems.map((item) => (
+              item.roles === undefined || item.roles.includes(user?.role) ? (
+                <NavbarMenuItem key={item.href}>
+                  <Link href={item.href} className="text-2xl"
+                  color={pathName == item.href ? "primary": "foreground"}
+                  aria-current={pathName == item.href ? "page": "false"}>
+                    {item.label}
+                  </Link>
+                </NavbarMenuItem>
+              ) : null
+            ))}
+          </NavbarMenu>
+        ) : null
+      }
     </Navbar>
   );
 }
