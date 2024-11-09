@@ -79,8 +79,8 @@ model Team {
   programming_language ProgrammingLanguage @relation(fields: [programming_language_id], references: [id])
   notifications Notifications[]
   created_at DateTime @default(now())
-  approved Boolean
-  approved_at DateTime
+  approved Boolean @default(false)
+  approved_at DateTime?
   user_id String @unique
   user User @relation(fields: [user_id], references: [id])
 }
@@ -88,6 +88,8 @@ model Team {
 model Notifications {
   id        String @id @default(uuid())
   type      String
+  message   String
+  metadata  Json?
   team_id   String
   team      Team   @relation(fields: [team_id], references: [id])
   created_at DateTime @default(now())
