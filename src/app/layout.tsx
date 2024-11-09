@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SessionProvider } from "next-auth/react";
 import { Providers } from "./providers";
+import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,6 +15,21 @@ Readonly<{children: React.ReactNode;}>) {
     <SessionProvider>
       <html lang="en" className="dark">
         <body>
+          <NextTopLoader
+            color="#006fee"
+            initialPosition={0.08}
+            crawlSpeed={100}
+            height={2}
+            crawl={true}
+            showSpinner={true}
+            easing="ease"
+            speed={200}
+            shadow="0 0 10px #2299DD,0 0 5px #2299DD"
+            template='<div class="bar" role="bar"><div class="peg"></div></div> 
+            <div class="spinner" role="spinner"><div class="spinner-icon"></div></div>'
+            zIndex={1600}
+            showAtBottom={false}
+          />
           <Providers>
             {children}
           </Providers>
