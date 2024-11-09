@@ -4,8 +4,9 @@ import prisma from "@/lib/db";
 
 export async function organizerLoadDashboard() {
   const categories = await prisma.category.findMany({select: {id: true, name: true, valid_until: true, teams: {select: {_count: true}}}});
-  const graph_data = await prisma.category.findMany({include: {programmingLanguages: {include: {teams: {select: {_count: true}}}}}});
-  return {categories, graph_data};
+  const graph_data = await prisma.category.findMany({include: {teams: {select: {_count: true}}, programmingLanguages: {include: {teams: {select: {_count: true}}}}}});
+  const environments = await prisma.category.findMany({select: {id: true, name: true, programmingLanguages: {select: {id: true, name: true}}}});
+  return {categories, graph_data, environments};
 }
 
 export async function organizerLoadRegistrations() {
