@@ -22,10 +22,6 @@ model User {
 
   school School?
   team Team?
-
-  notifications_created Notifications[]
-  categories_created Category[]
-  programming_languages_created ProgrammingLanguage[]
 }
 
 model School {
@@ -53,21 +49,21 @@ model TeamMember {
 model Category {
   id   String @id @default(uuid())
   name String
-  teams Team[]
   valid_from DateTime
   valid_until DateTime
   created_at DateTime @default(now())
-  created_by String
-  user User @relation(fields: [created_by], references: [id])
+
+  teams Team[]
+  programmingLanguages ProgrammingLanguage[]
 }
 
 model ProgrammingLanguage {
   id   String @id @default(uuid())
   name String
-  teams Team[]
   created_at DateTime @default(now())
-  created_by String
-  user User @relation(fields: [created_by], references: [id])
+  caregory_id String
+  category Category @relation(fields: [caregory_id], references: [id])
+  teams Team[]
 }
 
 model Team {
@@ -95,6 +91,4 @@ model Notifications {
   team_id   String
   team      Team   @relation(fields: [team_id], references: [id])
   created_at DateTime @default(now())
-  created_by String
-  user User @relation(fields: [created_by], references: [id])
 }
