@@ -3,7 +3,7 @@ import Logo from "@/assets/logo-min.webp"
 import { BsCodeSquare, BsGlobe, BsPhoneVibrate } from "react-icons/bs";
 import { FaUsers } from "react-icons/fa";
 import { MdSchool } from "react-icons/md";
-import { RiCalendarScheduleFill, RiNextjsFill } from "react-icons/ri";
+import { RiCalendarScheduleFill } from "react-icons/ri";
 
 import PythonIcon from "@/assets/icons/python.svg";
 import CsharpIcon from "@/assets/icons/csharp.svg";
@@ -118,10 +118,6 @@ export default async function Home() {
         <Button as={Link} href="/signup" className="mt-10 py-8 px-12 text-2xl font-semibold w-max mx-auto" color="primary">Regisztrálok</Button>
         <Link href="/signin" className="text-xl mx-auto mt-6 opacity-70 hover:underline" color="foreground">Már regisztráltam</Link>
       </section>
-
-      <footer className="mt-20 bg-content1 w-screen p-6 flex items-center justify-center text-foreground/70">
-        Made with ❤️ by the KandOS team.
-      </footer>
     </article>
 
   );
