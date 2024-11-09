@@ -13,10 +13,10 @@ export default function RootLayout({children}:
 Readonly<{children: React.ReactNode;}>) {
   return (
     <SessionProvider>
-      <html lang="en" className="dark">
+      <html lang="hu" className="dark">
         <body>
           <NextTopLoader
-            color="#006fee"
+            color="hsl(var(--nextui-primary) / var(--nextui-primary-opacity, 1))"
             initialPosition={0.08}
             crawlSpeed={100}
             height={2}

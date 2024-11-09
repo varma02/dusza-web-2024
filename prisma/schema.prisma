@@ -71,7 +71,7 @@ model Team {
   name      String
   school_id String
   school    School @relation(fields: [school_id], references: [id])
-  teachers  Json
+  teachers  String
   members   TeamMember[]
   category_id String
   category Category @relation(fields: [category_id], references: [id])

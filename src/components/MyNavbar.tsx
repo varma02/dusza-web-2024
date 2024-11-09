@@ -35,7 +35,7 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
       </NavbarContent>
 
       <NavbarContent justify="start">
-        <NavbarBrand className="gap-4">
+        <NavbarBrand as={Link} href="/" className="gap-4 text-foreground">
           <Image height="2.5rem" src={Logo.src} alt="AI generált logo" />
           <p className="font-bold text-inherit">VJF</p>
         </NavbarBrand>

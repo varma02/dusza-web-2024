@@ -98,7 +98,7 @@ async function main() {
       {name: "Vincze Roland", grade: 12, substitute: false},
       {name: "Vezsenyi Roland" , grade: 13, substitute: false},
     ]}},
-    teachers: ["Kátay Magdolna"],
+    teachers: "Kátay Magdolna",
     user: {create: {
       role: 1,
       username: "kandos",
@@ -117,7 +117,7 @@ async function main() {
       {name: "Tóth Gábor" , grade: 13, substitute: false},
       {name: "Kiss József" , grade: 9, substitute: true},
     ]}},
-    teachers: ["Nagy László"],
+    teachers: "Nagy László",
     user: {create: {
       role: 1,
       username: "techies",
@@ -135,7 +135,7 @@ async function main() {
       {name: "Kiss Júlia", grade: 12, substitute: false},
       {name: "Horváth Dávid" , grade: 13, substitute: false},
     ]}},
-    teachers: ["Farkas Zoltán", "Kovács Péter"],
+    teachers: "Farkas Zoltán,Kovács Péter",
     user: {create: {
       role: 1,
       username: "codemasters",
