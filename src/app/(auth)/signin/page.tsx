@@ -36,7 +36,7 @@ const SignInPage = () => {
   }
 
   return (
-    <Card className="w-full max-w-lg p-4">
+    <Card className="w-full max-w-lg p-2">
       <CardHeader>
         <h1 className="w-full text-center text-2xl font-semibold">Bejelentkezés</h1>
       </CardHeader>

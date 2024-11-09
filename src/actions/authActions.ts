@@ -39,34 +39,34 @@ export const handleSignUp = async (values: unknown) => {
   const { username, password, name, school, teachers, category, programming_language } = parsedValues.data
 
   try {
-    await prisma.user.create({ data: {
+    const user = await prisma.user.create({ data: {
       username,
       password: hashSync(password, 10)
     } })
+
+    const team = await prisma.team.create({
+      data: {
+        user_id: user.id, name, school_id: school, teachers: teachers.split(",").map(teacher => teacher.trim()), category_id: category, programming_language_id: programming_language, approved: false, approved_at: new Date(0)
+      }
+    })
+  
+    const data = [
+      { name: parsedValues.data.member_1_name, grade: Number(parsedValues.data.member_1_grade), substitute: false, team_id: team.id },
+      { name: parsedValues.data.member_2_name, grade: Number(parsedValues.data.member_2_grade), substitute: false, team_id: team.id },
+      { name: parsedValues.data.member_3_name, grade: Number(parsedValues.data.member_3_grade), substitute: false, team_id: team.id }
+    ]
+  
+    if (parsedValues.data.member_sub_name && parsedValues.data.member_sub_grade) {
+      data.push({ name: parsedValues.data.member_sub_name, grade: Number(parsedValues.data.member_sub_grade), substitute: true, team_id: team.id })
+    }
+  
+    await prisma.teamMember.createMany({ data })
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
     return {
       message: "Már létezik felhasználó ezzel a névvel",
     }
   }
-
-  const team = await prisma.team.create({
-    data: {
-      name, school_id: school, teachers: teachers.split(",").map(teacher => teacher.trim()), category_id: category, programming_language_id: programming_language, approved: false, approved_at: new Date(0)
-    }
-  })
-
-  const data = [
-    { name: parsedValues.data.member_1_name, grade: Number(parsedValues.data.member_1_grade), substitute: false, team_id: team.id },
-    { name: parsedValues.data.member_2_name, grade: Number(parsedValues.data.member_2_grade), substitute: false, team_id: team.id },
-    { name: parsedValues.data.member_3_name, grade: Number(parsedValues.data.member_3_grade), substitute: false, team_id: team.id }
-  ]
-
-  if (parsedValues.data.member_sub_name && parsedValues.data.member_sub_grade) {
-    data.push({ name: parsedValues.data.member_sub_name, grade: Number(parsedValues.data.member_sub_grade), substitute: true, team_id: team.id })
-  }
-
-  await prisma.teamMember.createMany({ data })
 }
 
 export const handleSignOut = async () => {

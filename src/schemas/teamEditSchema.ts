@@ -1,10 +1,6 @@
 import { object, string } from "zod"
 
-export const signUpSchema = object({
-  username: string().min(1, "Felhasználónév megadása kötelező"),
-  password: string().min(1, "Jelszó megadása kötelező"),
-  name: string().min(1, "Csapatnév megadása kötelező"),
-  school: string().min(1, "Iskola választása kötelező"),
+export const teamEditSchema = object({
   member_1_name: string().min(1, "Név megadása kötelező"),
   member_1_grade: string()
     .refine(num => !isNaN(Number(num)), { message: "Érvénytelen évfolyam" })
@@ -26,6 +22,6 @@ export const signUpSchema = object({
   programming_language: string().min(1, "Programnyelv választása kötelező")
 })
   .refine(data => !(data.member_sub_grade && data.member_sub_grade.trim().length > 0 && (data.member_sub_name === undefined || data.member_sub_name.trim().length === 0)),
-    { message: "Név megadása kötelező", path: [ "member_sub_name" ] })
+  { message: "Név megadása kötelező", path: [ "member_sub_name" ] })
   .refine(data => !(data.member_sub_name && data.member_sub_name.trim().length > 0 && (data.member_sub_grade === undefined || data.member_sub_grade.trim().length === 0)),
-    { message: "Érvénytelen évfolyam", path: [ "member_sub_grade" ] })
+  { message: "Érvénytelen évfolyam", path: [ "member_sub_grade" ] })

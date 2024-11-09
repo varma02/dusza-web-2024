@@ -55,7 +55,7 @@ export const SignUpCard = ({
   }
 
   return (
-    <Card className="w-full max-w-lg p-4">
+    <Card className="w-full max-w-lg p-2">
       <CardHeader>
         <h1 className="w-full text-center text-2xl font-semibold">Csapat regisztrálása</h1>
       </CardHeader>
@@ -237,8 +237,8 @@ export const SignUpCard = ({
             placeholder="Adja meg tanára(i) nevét"
             description="Több tanár esetén vesszővel válassza el a neveket"
             variant="bordered"
-            isInvalid={errors.name !== undefined}
-            errorMessage={errors.name?.message}
+            isInvalid={errors.teachers !== undefined}
+            errorMessage={errors.teachers?.message}
           />
           <Select
             {...register("category")}
