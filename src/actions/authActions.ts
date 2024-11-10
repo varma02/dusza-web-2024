@@ -13,19 +13,16 @@ export const handleCredentialsSignIn = async (
   } : { 
     username: string,
     password: string
-  },
-  callbackUrl?: string
+  }
 ) => {
   try {
-    await signIn("credentials", { username, password, redirectTo: callbackUrl })
+    await signIn("credentials", { username, password })
   } catch (error) {
     if (error instanceof AuthError && error.type === "CredentialsSignin") {
       return {
         message: "Helytelen felhasználónév és/vagy jelszó"
       }
     }
-
-    throw error
   }
 }
 
@@ -58,7 +55,7 @@ export const handleSignUp = async (values: unknown) => {
 
     const team = await prisma.team.create({
       data: {
-        user_id: user.id, name, school_id: school, teachers: teachers.trim().replace(', ', ','), category_id: category, programming_language_id: programming_language,
+        user_id: user.id, name, school_id: school, teachers: teachers.split(",").map(teacher => teacher.trim()).join(","), category_id: category, programming_language_id: programming_language,
       }
     })
   

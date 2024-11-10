@@ -6,8 +6,9 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useContext, useEffect, useState } from "react"
 import { signUpSchema } from "@/schemas/signUpSchema"
 import { getSignUpProps, handleSignUp } from "@/actions/authActions"
+import Link from "next/link"
 
-import { Card, CardBody, CardHeader, Input, Select, SelectItem, Divider, Button, Link } from "@nextui-org/react"
+import { Card, CardBody, CardHeader, Input, Select, SelectItem, Autocomplete, AutocompleteItem, Divider, Button } from "@nextui-org/react"
 import { MdArrowBack, MdVisibility, MdVisibilityOff } from "react-icons/md"
 import { ToasterContext } from "@/components/ToasterProvider"
 
@@ -17,12 +18,11 @@ interface SelectProps {
 }
 
 const SignUpPage = () => {
+  const toaster = useContext(ToasterContext)
+
   const [ schools, setSchools ] = useState<SelectProps[]>([])
   const [ categories, setCategories ] = useState<SelectProps[]>([])
   const [ programmingLanguages, setProgrammingLanguages ] = useState<SelectProps[]>([])
-
-  const [ globalError, setGlobalError ] = useState<string>()
-  const toaster = useContext(ToasterContext)
 
   const [ isPasswordVisible, setIsPasswordVisible ] = useState(false)
 
@@ -56,9 +56,9 @@ const SignUpPage = () => {
 
   const onSubmit = async (values: z.infer<typeof signUpSchema>) => {
     const res = await handleSignUp(values)
-    if (res) return setGlobalError(res.message)
+    if (res) return toaster.newToast(res.message, "danger", "Sikertelen regisztráció", 5000)
 
-    toaster.newToast("Csapat sikeresen regisztrálva!", "success", "Regisztrálva", 5000)
+    toaster.newToast("Csapat sikeresen regisztrálva!", "success", "Sikeres regisztráció", 5000)
     reset()
   }
 
@@ -112,20 +112,23 @@ const SignUpPage = () => {
             isInvalid={errors.name !== undefined}
             errorMessage={errors.name?.message}
           />
-          <Select
+          <Autocomplete
             {...register("school")}
             label="Iskola"
             placeholder="Válasszon iskolát"
             variant="faded"
             isInvalid={errors.school !== undefined}
             errorMessage={errors.school?.message}
+            listboxProps={{
+              emptyContent: "Nincs találat"
+            }}
           >
             {schools.map(school => (
-              <SelectItem key={school.id} value={school.id}>
+              <AutocompleteItem key={school.id} value={school.id}>
                 {school.name}
-              </SelectItem>
+              </AutocompleteItem>
             ))}
-          </Select>
+          </Autocomplete>
           <div>
             <div className="flex items-center gap-4 pb-2">
               <span className="text-sm whitespace-nowrap">Első csapattag</span>
@@ -276,7 +279,6 @@ const SignUpPage = () => {
               </SelectItem>
             ))}
           </Select>
-          { globalError && <p className="text-center text-danger">{globalError}</p> }
           <div className="flex-1 flex gap-4 mt-4">
             <Button
               as={Link}

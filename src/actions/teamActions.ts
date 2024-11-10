@@ -1,8 +1,26 @@
 "use server"
 
 import prisma from "@/lib/db"
+import { auth } from "@/auth"
 import { teamEditSchema } from "@/schemas/teamEditSchema"
 import { TeamMember } from "@prisma/client"
+
+export const loadTeams = async () => {
+  const session = await auth()
+
+  const team = await prisma.team.findUnique({ where: { user_id: session?.user.id }})
+
+  const teamMembers = await prisma.teamMember.findMany({ where: { team_id: team?.id }})
+  const fixMembers = teamMembers.filter(member => !member.substitute)
+  const subMember = teamMembers.find(member => member.substitute)
+
+  const categories = await prisma.category.findMany()
+  const category = categories.find(category => team?.category_id === category.id)
+  const progLangs = await prisma.programmingLanguage.findMany()
+  const progLang = progLangs.find(language => team?.programming_language_id === language.id)
+
+  return { team, teamMembers: [ ...fixMembers, subMember ], categories: categories.filter(categ => categ.valid_until >= new Date() || categ.id === team?.category_id), category, progLangs, progLang }
+}
 
 export const handleTeamEdit = async ({
   id,
