@@ -69,3 +69,13 @@ export const handleDelSchool = async (ids: string[]) => {
     }
   }
 }
+
+export async function handleTeamSchoolApprove(selected: string) {
+  const parsed = JSON.parse(selected) as string[];
+  await prisma.team.updateMany({where: {id: {in: parsed}}, data: {approved_by_school: true}});
+}
+
+export async function handleTeamSchoolDisapprove(selected: string) {
+  const parsed = JSON.parse(selected) as string[];
+  await prisma.team.updateMany({where: {id: {in: parsed}}, data: {approved_by_school: false}});
+}

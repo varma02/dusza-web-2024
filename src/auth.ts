@@ -38,7 +38,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return Response.redirect(new URL("/", nextUrl))
       }
 
-      if (pathname.startsWith("/organizer") && isSignedIn && role !== UserRole.Organizer) {
+      if (pathname.startsWith('/team') && (!isSignedIn || role !== UserRole.TeamMember)) {
+        return Response.redirect(new URL("/", nextUrl))
+      }
+
+      if (pathname.startsWith("/organizer") && (!isSignedIn || role !== UserRole.Organizer)) {
+        return Response.redirect(new URL("/", nextUrl))
+      }
+
+      if (pathname.startsWith('/school') && (!isSignedIn || role !== UserRole.School)) {
         return Response.redirect(new URL("/", nextUrl))
       }
 
