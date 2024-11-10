@@ -11,8 +11,8 @@ export default function CategoriesPage() {
 
   const [categories, setCategories] = useState<ReturnType<typeof organizerLoadCategories> extends Promise<infer R> ? R : never | null>([]);
 
-  const [selectedCategory, setSelectedCategory] = useState<Selection>(new Set([]));
-  const [selectedProgrammingLanguage, setSelectedProgrammingLanguage] = useState<Selection>(new Set([]));
+  const [selectedCategory, setSelectedCategory] = useState<Selection>(new Set(['new_category']));
+  const [selectedProgrammingLanguage, setSelectedProgrammingLanguage] = useState<Selection>(new Set(['new_programming_language']));
 
   const [categoryDate, setCategoryDate] = useState<DateValue>();
   const [categoryName, setCategoryName] = useState<string>();
@@ -48,7 +48,6 @@ export default function CategoriesPage() {
           <Listbox 
               variant="flat"
               disallowEmptySelection
-              defaultSelectedKeys={["new_category"]}
               selectionMode="single"
               selectedKeys={selectedCategory}
               onSelectionChange={setSelectedCategory}
@@ -121,7 +120,6 @@ export default function CategoriesPage() {
           <Listbox 
               variant="flat"
               disallowEmptySelection
-              defaultSelectedKeys={["new_programming_language"]}
               selectionMode="single"
               selectedKeys={selectedProgrammingLanguage}
               onSelectionChange={setSelectedProgrammingLanguage}
