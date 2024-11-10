@@ -71,7 +71,7 @@ export default function CategoriesPage() {
           </Listbox>
           ) : <Spinner />}
         </Card>
-        <form className="flex gap-4 items-end" action={(formData: FormData) => {
+        <form className="flex gap-4 items-end lg:flex-row flex-col" action={(formData: FormData) => {
           handleCategoryUpdate(formData)
           .then(() => newToast("Sikeres mentés", "success", "", 5000), 
           () => newToast("Nem sikerült menteni a kategóriát", "danger", "Hiba történt", 5000))
@@ -94,22 +94,24 @@ export default function CategoriesPage() {
             value={categoryDate}
             onChange={setCategoryDate}
             name="valid_until" 
-            classNames={{base: "w-auto"}} 
+            classNames={{base: "w-auto lg:w-auto w-full"}} 
             label="Határidő" 
             labelPlacement="outside" />
-          <Button 
-            type="submit"
-            className="text-lg" 
-            color="primary" 
-            startContent={<MdSave />}>
-              Mentés
-          </Button>
-          <Button onPress={confirmModal.onOpen}
-            className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
-            isIconOnly 
-            color="danger">
-              <MdDelete />
-          </Button>
+          <div className="flex flex-1 gap-4">
+            <Button 
+              type="submit"
+              className="text-lg" 
+              color="primary" 
+              startContent={<MdSave />}>
+                Mentés
+            </Button>
+            <Button onPress={confirmModal.onOpen}
+              className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
+              isIconOnly 
+              color="danger">
+                <MdDelete />
+            </Button>
+          </div>
         </form>
       </div>
 
@@ -138,7 +140,7 @@ export default function CategoriesPage() {
           </Listbox>
           ) : <Spinner />}
         </Card>
-        <form className="flex gap-4 items-end" action={(formData: FormData) => {
+        <form className="flex gap-4 items-end lg:flex-row flex-col" action={(formData: FormData) => {
           handleProgrammingLanguageUpdate(formData)
           .then(() => newToast("Sikeres mentés", "success", "", 5000), 
           () => newToast("Nem sikerült menteni a programozási környezetet", "danger", "Hiba történt", 5000))
@@ -156,24 +158,26 @@ export default function CategoriesPage() {
             label="Programozási környezet neve" 
             labelPlacement="outside" 
             placeholder="Lorem ipsum dolor..." />
-          <Button 
-            type="submit"
-            className="text-lg" 
-            color="primary" 
-            startContent={<MdSave />}>
-              Mentés
-          </Button>
-          <Button  onPress={() => {
-                  handleProgrammingLanguageDelete([...selectedProgrammingLanguage][0].toString())
-                  .then(() => newToast("Sikeres törlés", "success", "", 5000), 
-                  () => newToast("Nem sikerült törölni a programozási környezetet", "danger", "Hiba történt", 5000))
-                  .finally(() => fetchCategories());
-                }}
-            className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
-            isIconOnly 
-            color="danger">
-              <MdDelete />
-          </Button>
+          <div className="flex flex-1 gap-4">
+            <Button 
+              type="submit"
+              className="text-lg" 
+              color="primary" 
+              startContent={<MdSave />}>
+                Mentés
+            </Button>
+            <Button  onPress={() => {
+                    handleProgrammingLanguageDelete([...selectedProgrammingLanguage][0].toString())
+                    .then(() => newToast("Sikeres törlés", "success", "", 5000), 
+                    () => newToast("Nem sikerült törölni a programozási környezetet", "danger", "Hiba történt", 5000))
+                    .finally(() => fetchCategories());
+                  }}
+              className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
+              isIconOnly 
+              color="danger">
+                <MdDelete />
+            </Button>
+          </div>
         </form>
       </div>
 
