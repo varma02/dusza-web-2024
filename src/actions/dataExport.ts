@@ -1,32 +1,10 @@
+"use server"
+
 import xlsx from "json-as-xlsx";
-import { json2csv } from 'json-2-csv';
+import { stringify } from 'csv-stringify/sync';
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
-
-export const ExportFields = [
-    { name: "Azonosító", key: "id" },
-    { name: "Csapatnév", key: "name" },
-    { name: "Iskola neve", key: "schoolName" },
-    { name: "Iskola címe", key: "schoolAddress" },
-    { name: "Iskolai kapcsolattartó elérhetősége", key: "schoolContactEmail" },
-    { name: "Iskolai kapcsolattartó neve", key: "schoolContactName" },
-    { name: "Iskola regisztrálva", key: "schoolRegistered" },
-    { name: "Felkészítők", key: "teachers" },
-    { name: "1. csapattag neve", key: "member1Name" },
-    { name: "1. csapattag osztálya", key: "member1Grade" },
-    { name: "2. csapattag neve", key: "member2Name" },
-    { name: "2. csapattag osztálya", key: "member2Grade" },
-    { name: "3. csapattag neve", key: "member3Name" },
-    { name: "3. csapattag osztálya", key: "member3Grade" },
-    { name: "Pót tag neve", key: "member4Name" },
-    { name: "Pót tag osztálya", key: "member4Grade" },
-    { name: "Kategória", key: "category" },
-    { name: "Programozási nyelv", key: "programmingLanguage" },
-    { name: "Regisztrálva", key: "registered_at" },
-    { name: "Jóváhagyva", key: "approved" },
-    { name: "Iskola jóváhagyta", key: "approved_by_school" }
-];
 
 export const ExportToFile = async (
     type: "xlsx" | "csv",
@@ -56,7 +34,6 @@ export const ExportToFile = async (
     });
 
     let finalFields: { label: string, key: string }[] = [];
-    let content: { [key: string]: string | number | boolean }[] = [];
 
     for (let Field of fields) {
         if (Field.key == "schoolDetails") {
@@ -82,83 +59,47 @@ export const ExportToFile = async (
         }
     }
 
-    for (let Team of teams) {
-        let rowData: { [key: string]: string } = {};
-        for (let Field of finalFields) {
-            switch (Field.key) {
-                case "id":
-                    rowData[Field.key] = Team.id;
-                    break;
-                case "name":
-                    rowData[Field.key] = Team.name;
-                    break;
-                case "schoolName":
-                    rowData[Field.key] = Team.school.name;
-                    break;
-                case "schoolAddress":
-                    rowData[Field.key] = Team.school.address;
-                    break;
-                case "schoolContactEmail":
-                    rowData[Field.key] = Team.school.contact_email;
-                    break;
-                case "schoolContactName":
-                    rowData[Field.key] = Team.school.contact_name;
-                    break;
-                case "schoolRegistered":
-                    rowData[Field.key] = new Date(Team.school.created_at).toDateString();
-                    break;
-                case "teachers":
-                    rowData[Field.key] = Team.teachers;
-                    break;
-                case "member1Name":
-                    rowData[Field.key] = Team.members[0]?.name || "";
-                    break;
-                case "member1Grade":
-                    rowData[Field.key] = Team.members[0]?.grade.toString() || "";
-                    break;
-                case "member2Name":
-                    rowData[Field.key] = Team.members[1]?.name || "";
-                    break;
-                case "member2Grade":
-                    rowData[Field.key] = Team.members[1]?.grade.toString() || "";
-                    break;
-                case "member3Name":
-                    rowData[Field.key] = Team.members[2]?.name || "";
-                    break;
-                case "member3Grade":
-                    rowData[Field.key] = Team.members[2]?.grade.toString() || "";
-                    break;
-                case "member4Name":
-                    rowData[Field.key] = Team.members.find(member => member.substitute)?.name || "";
-                    break;
-                case "member4Grade":
-                    rowData[Field.key] = Team.members.find(member => member.substitute)?.grade.toString() || "";
-                    break;
-                case "category":
-                    rowData[Field.key] = Team.category.name;
-                    break;
-                case "programmingLanguage":
-                    rowData[Field.key] = Team.programming_language.name;
-                    break;
-                case "registered_at":
-                    rowData[Field.key] = new Date(Team.created_at).toDateString();
-                    break;
-                case "approved":
-                    rowData[Field.key] = Team.approved ? 'Jóváhagyva' : 'Nem lett jóváhagyva';
-                    break;
-                case "approved_by_school":
-                    rowData[Field.key] = Team.approved_by_school ? 'Jóváhagyta' : 'Nem hagyta jóvá';
-                    break;
-            }
-        }
-
-        content.push(rowData);
-    }
+    const content = teams.map((team) => {
+        return {
+            id: team.id,
+            name: team.name,
+            schoolName: team.school.name,
+            schoolAddress: team.school.address,
+            schoolContactEmail: team.school.contact_email,
+            schoolContactName: team.school.contact_name,
+            schoolRegistered: new Date(team.school.created_at).toDateString(),
+            teachers: team.teachers,
+            member1Name: team.members[0]?.name || "",
+            member1Grade: team.members[0]?.grade || "",
+            member2Name: team.members[1]?.name || "",
+            member2Grade: team.members[1]?.grade || "",
+            member3Name: team.members[2]?.name || "",
+            member3Grade: team.members[2]?.grade || "",
+            member4Name: team.members.find((m) => m.substitute)?.name || "",
+            member4Grade: team.members.find((m) => m.substitute)?.grade || "",
+            category: team.category.name,
+            programmingLanguage: team.programming_language.name,
+            registered_at: new Date(team.created_at).toDateString(),
+            approved: team.approved ? 'Jóváhagyva' : 'Nem lett jóváhagyva',
+            approved_by_school: team.approved_by_school ? 'Jóváhagyta' : 'Nem hagyta jóvá'
+        };
+    });
 
     let r: Buffer | undefined;
 
     if (type === "csv") {
-        const csv = json2csv(content);
+        const csv = stringify([
+            ...finalFields.map(x => x.label),
+            ...content.map(x => {
+                let r: string[] = [];
+
+                for (let [key, val] of Object.entries(x)) {
+                    r.push(val.toString())
+                }
+                
+                return r
+            })
+        ]);
 
         console.log(csv);
 
