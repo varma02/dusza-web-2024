@@ -121,7 +121,7 @@ const TeamPage = () => {
               <Divider className="flex-1" />
             </div>
             <li className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {teamMembers.map((member) => (
+              {teamMembers.map((member) => member?.grade != 0 ? (
                 <ul key={member?.id}>
                   <User
                     name={
@@ -135,7 +135,7 @@ const TeamPage = () => {
                     }}
                   />
                 </ul>
-              ))}
+              ) : <></>)}
             </li>
           </div>
           <div className="min-w-[minmax(max,100%)] flex-1">
