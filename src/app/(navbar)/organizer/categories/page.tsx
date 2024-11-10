@@ -97,7 +97,7 @@ export default function CategoriesPage() {
             classNames={{base: "w-auto lg:w-auto w-full"}} 
             label="Határidő" 
             labelPlacement="outside" />
-          <div className="flex flex-1 gap-4">
+          <div className="flex lg:flex-none flex-1 gap-4">
             <Button 
               type="submit"
               className="text-lg" 
@@ -158,7 +158,7 @@ export default function CategoriesPage() {
             label="Programozási környezet neve" 
             labelPlacement="outside" 
             placeholder="Lorem ipsum dolor..." />
-          <div className="flex flex-1 gap-4">
+          <div className="flex lg:flex-none flex-1 gap-4">
             <Button 
               type="submit"
               className="text-lg" 
