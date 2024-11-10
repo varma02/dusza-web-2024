@@ -116,3 +116,4 @@ Bejelentkezés után a **Irányítópult** menüpont alatt a **Adatok exportál�
   - Verseny feladat kiadása a felületen keresztül.
   - A csapatok munkáinak feltöltése és értékelése a felületen keresztül.
   - Email értesítés rendszer a határidőkről, üzenetekről és feladatokról.
+  - Developer dokumentáció készítése.
