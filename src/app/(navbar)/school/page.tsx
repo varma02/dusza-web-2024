@@ -1,10 +1,10 @@
 'use client'
 
 import TableView from "@/components/TableView";
-import { MdCheckCircle, MdDelete, MdTextSnippet, MdUnpublished } from "react-icons/md";
-import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Textarea, useDisclosure } from "@nextui-org/react";
+import { MdCheckCircle, MdDelete, MdUnpublished } from "react-icons/md";
+import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, useDisclosure } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
-import { handleHiánypótlás, handleTeamApprove, handleTeamDelete, handleTeamDisapprove, organizerLoadRegistrations } from "@/actions/organizerActions";
+import {  handleTeamDelete, organizerLoadRegistrations } from "@/actions/organizerActions";
 import { ToasterContext } from "@/components/ToasterProvider";
 import { handleTeamSchoolApprove, handleTeamSchoolDisapprove } from "@/actions/schoolActions";
 
@@ -26,7 +26,6 @@ export default function SchoolRegistrations() {
   const { newToast } = useContext(ToasterContext);
 
   const torlesModal = useDisclosure();
-  const hianypotlasModal = useDisclosure();
   const [selected, setSelected] = useState<Selection>(new Set([]));
 
   const [data, setData] = useState<{ [key: string]: string | number; id: string; name: string; }[]>([]);
