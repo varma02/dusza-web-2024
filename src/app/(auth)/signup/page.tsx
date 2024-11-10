@@ -125,7 +125,9 @@ const SignUpPage = () => {
           >
             {schools.map(school => (
               <AutocompleteItem key={school.id} value={school.id}>
+              <AutocompleteItem key={school.id} value={school.id}>
                 {school.name}
+              </AutocompleteItem>
               </AutocompleteItem>
             ))}
           </Autocomplete>

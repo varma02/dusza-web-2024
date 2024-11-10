@@ -1,10 +1,12 @@
 "use server"
 
-import { signIn, signOut } from "@/auth"
+import { z } from "zod"
+import { auth, signIn, signOut } from "@/auth"
 import prisma from "@/lib/db"
 import { AuthError } from "next-auth"
 import { signUpSchema } from "@/schemas/signUpSchema"
-import { hashSync } from "bcryptjs"
+import { compareSync, hashSync } from "bcryptjs"
+import { changePasswordSchema } from "@/schemas/changePasswordSchema"
 
 export const handleCredentialsSignIn = async (
   {
@@ -22,6 +24,33 @@ export const handleCredentialsSignIn = async (
       return {
         message: "Helytelen felhasználónév és/vagy jelszó"
       }
+    }
+  }
+}
+
+export const handleChangePassword = async (values: z.infer<typeof changePasswordSchema>) => {
+  try {
+    const session = await auth()
+    const user = await prisma.user.findUnique({ where: { id: session?.user.id } })
+
+    if (!user) {
+      return { message: "Felhasználó nem található" }
+    }
+
+    if (!compareSync(values.password, user.password)) {
+      return { message: "Helytelen jelszó került megadásra" }
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashSync(values.newPassword)
+      }
+    })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return {
+      message: "Nem sikerült a jelszót megváltoztatni"
     }
   }
 }

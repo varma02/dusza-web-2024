@@ -2,17 +2,22 @@
 
 import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Image, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, useDisclosure } from "@nextui-org/react";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useContext, useState } from "react";
+
+import { z } from "zod";
+import { UserRole } from "@/types";
+import { User } from "next-auth";
+import { handleChangePassword, handleSignOut } from "@/actions/authActions";
+import { useForm } from "react-hook-form";
 
 import Logo from "@/assets/logo-min.webp";
 import { MdAccountCircle, MdKey, MdLogout, MdVisibility, MdVisibilityOff } from "react-icons/md"
-
-import { UserRole } from "@/types";
-import { User } from "next-auth";
-import { handleSignOut } from "@/actions/authActions";
-
+import { zodResolver } from "@hookform/resolvers/zod";
+import { changePasswordSchema } from "@/schemas/changePasswordSchema";
+import { ToasterContext } from "./ToasterProvider";
 
 export default function MyNavbar({ user }: { user: User | undefined }) {
+  const toaster = useContext(ToasterContext)
 
   const changePasswordModal = useDisclosure();
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
@@ -28,6 +33,26 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
     {href: "/team", label: "Irányítópult", roles: [ UserRole.TeamMember ]},
     {href: "/team/notifications", label: "Hiánypótlás", roles: [ UserRole.TeamMember ]}
   ]
+
+  const { register, handleSubmit, formState: { isSubmitting, errors }, reset } = useForm<z.infer<typeof changePasswordSchema>>({
+    resolver: zodResolver(changePasswordSchema),
+    defaultValues: {
+      password: "",
+      newPassword: "",
+      confirmPassword: ""
+    }
+  })
+
+  let onclose = () => {}
+
+  const onPasswordChange = async (values: z.infer<typeof changePasswordSchema>) => {
+    const res = await handleChangePassword(values)
+    if (res) return toaster.newToast(res.message, "danger", "Sikertelen jelszó változtatás")
+
+    toaster.newToast("A jelszó sikeresen megváltozott", "success", "Sikeres jelszó változtatás")
+    onclose()
+    reset()
+  }
 
   return (
     <Navbar
@@ -124,10 +149,11 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
       >
         <ModalContent>
           {(onClose) => (
-            <>
+            <form onSubmit={handleSubmit(onPasswordChange)}>
               <ModalHeader className="flex flex-col gap-1">Jelszó megváltoztatása</ModalHeader>
               <ModalBody>
                 <Input
+                  {...register("password")}
                   type={isPasswordVisible ? "text" : "password"}
                   label="Jelenlegi Jelszó"
                   placeholder="Adja meg jelszavát"
@@ -141,30 +167,38 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
                     )}
                   </button>
                   }
+                  isInvalid={errors.password !== undefined}
+                  errorMessage={errors.password?.message}
                 />
                 <Divider className="my-4" />
                 <Input
+                  {...register("newPassword")}
                   type={isPasswordVisible ? "text" : "password"}
                   label="Új jelszó"
                   placeholder="Adja meg az új jelszót"
                   variant="bordered"
+                  isInvalid={errors.newPassword !== undefined}
+                  errorMessage={errors.newPassword?.message}
                 />
                 <Input
+                  {...register("confirmPassword")}
                   type={isPasswordVisible ? "text" : "password"}
                   label="Új jelszó megerősítése"
                   placeholder="Adja meg az új jelszót"
                   variant="bordered"
+                  isInvalid={errors.confirmPassword !== undefined}
+                  errorMessage={errors.confirmPassword?.message}
                 />
               </ModalBody>
               <ModalFooter>
                 <Button color="danger" variant="light" onPress={onClose}>
                   Mégse
                 </Button>
-                <Button color="primary" onPress={onClose}>
+                <Button color="primary" type="submit" isLoading={isSubmitting} onPress={() => onclose = onClose}>
                   Megváltoztatás
                 </Button>
               </ModalFooter>
-            </>
+            </form>
           )}
         </ModalContent>
       </Modal>
