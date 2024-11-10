@@ -11,7 +11,7 @@ import { Category, ProgrammingLanguage, Team, TeamMember } from "@prisma/client"
 
 import { Button, Card, CardBody, CardFooter, CardHeader, Chip, Divider, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Select, SelectItem, useDisclosure, User } from "@nextui-org/react"
 import { dateFormatter } from "@/lib/utils"
-import { MdEdit } from "react-icons/md"
+import { MdCheckCircle, MdEdit, MdHourglassBottom } from "react-icons/md"
 
 const TeamPage = () => {
   const toaster = useContext(ToasterContext)
@@ -65,6 +65,54 @@ const TeamPage = () => {
           </h2>
         </CardHeader>
         <CardBody className="flex flex-wrap gap-8">
+          <div className="flex-1 min-w-max">
+            <div className="flex items-center gap-4 pb-2">
+              <span className="text-sm whitespace-nowrap text-foreground-500">
+                Jelentkezés állapota
+              </span>
+              <Divider className="flex-1" />
+            </div>
+            <div className="flex gap-4">
+              {team?.approved_by_school ? (
+                <Chip
+                  startContent={<MdCheckCircle />}
+                  variant="flat"
+                  color="success"
+                  className="px-2"
+                >
+                  Az iskola elfogadta
+                </Chip>
+              ) : (
+                <Chip
+                  startContent={<MdHourglassBottom />}
+                  variant="flat"
+                  color="warning"
+                  className="px-2"
+                >
+                  Az iskola még nem fogadta el
+                </Chip>
+              )}
+              {team?.approved ? (
+                <Chip
+                  startContent={<MdCheckCircle />}
+                  variant="flat"
+                  color="success"
+                  className="px-2"
+                >
+                  A szervezők elfogadták
+                </Chip>
+              ) : (
+                <Chip
+                  startContent={<MdHourglassBottom />}
+                  variant="flat"
+                  color="warning"
+                  className="px-2"
+                >
+                  A szervezők még nem fogadták el
+                </Chip>
+              )}
+            </div>
+          </div>
           <div className="min-w-max flex-1">
             <div className="flex items-center gap-4 pb-2">
               <span className="text-sm whitespace-nowrap text-foreground-500">

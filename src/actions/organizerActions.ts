@@ -68,6 +68,7 @@ export async function handleHiánypótlás(formData: FormData) {
   }))
   
   await prisma.notifications.createMany({data: [...temp]});
+  await prisma.team.updateMany({where: {id: {in: selected}}, data: {approved: false}});
 }
 
 export async function handleTeamDelete(data: FormData) {
