@@ -19,8 +19,6 @@ export async function handleCategoryUpdate(data: FormData) {
   const id = data.get("id") as string;
   const name = data.get("name") as string;
   const valid_until = parseZonedDateTime(data.get("valid_until") as string).toDate();
-  console.log(id, name, valid_until);
-  
   if (id == "new_category") {
     await prisma.category.create({data: {name, valid_until, valid_from: new Date()}});
   } else {
