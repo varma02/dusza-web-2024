@@ -6,6 +6,8 @@ import { MdChevronRight, MdFileDownload, MdFilterAltOff } from "react-icons/md";
 import { useEffect, useMemo, useState } from "react";
 import { organizerLoadDashboard } from "@/actions/organizerActions";
 import ListboxSelector from "@/components/ListboxSelector";
+import { ExportToFile } from "@/actions/dataExport";
+import { ExportFields } from "@/types";
 
 export default function OrganizerDashboard() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
@@ -131,7 +133,23 @@ export default function OrganizerDashboard() {
           <h2 className="font-semibold text-2xl">Adatok exportálása</h2>
         </CardHeader>
         <form className="contents" action={(data: FormData)=>{
-          console.log("TODO: handle export", data)
+          ExportToFile(
+            data.get('format') as 'xlsx' | 'csv',
+            JSON.parse(data.get('columns') as string)
+          ).then((file) => {
+            if (file) {
+              const url = URL.createObjectURL(file);
+              const a = document.createElement('a');
+              a.href = url;
+              a.download = `export.${data.get('format')}`;
+              document.body.appendChild(a);
+              a.click();
+              document.body.removeChild(a);
+              URL.revokeObjectURL(url);
+            } else {
+              console.error('File is undefined');
+            }
+          })
         }}>
           <CardBody className="gap-4 flex-1">
           <Select isRequired name="format" 
@@ -144,23 +162,7 @@ export default function OrganizerDashboard() {
               Excel (.xlsx)
             </SelectItem>
           </Select>
-          <ListboxSelector name="columns" label="Oszlopok" options={[
-            {name: "Csapat ID", key: "id"},
-            {name: "Elfogadava", key: "approved"},
-            {name: "Iskola elfogadta", key: "approved_by_school"},
-            {name: "Csapat Név", key: "name"},
-            {name: "Kategória neve", key: "category_name"},
-            {name: "Programozási környezet neve", key: "programming_language_name"},
-            {name: "Iskola ID", key: "school_id"},
-            {name: "Iskola neve", key: "school_name"},
-            {name: "Iskola címe", key: "school_address"},
-            {name: "Iskola kapcsolat email", key: "school_contact_email"},
-            {name: "Iskola kapcsolat neve", key: "school_contact_name"},
-            {name: "Csapattagok neve", key: "members_name"},
-            {name: "Csapattagok évfolyama", key: "members_grade"},
-            {name: "Felkészítő tanár(ok)", key: "teachers"},
-            {name: "Jelentketés dátuma", key: "created_at"},
-          ]} />
+          <ListboxSelector name="columns" label="Oszlopok" options={ExportFields} />
           </CardBody>
           <CardFooter>
             <Button color="primary" type="submit"
