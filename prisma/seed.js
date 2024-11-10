@@ -5,7 +5,7 @@ async function main() {
   const web = await prisma.category.create({data: {
     name: "Webfejlesztés", 
     valid_from: new Date("2021-09-01"), 
-    valid_until: new Date("2022-09-01"),
+    valid_until: new Date("2024-11-20"),
     programmingLanguages: {
       createMany: {data: [
         {name: "React"},
@@ -19,7 +19,7 @@ async function main() {
   const mobil = await prisma.category.create({data: {
     name: "Mobilfejlesztés", 
     valid_from: new Date("2021-09-01"), 
-    valid_until: new Date("2022-09-01"),
+    valid_until: new Date("2024-11-20"),
     programmingLanguages: {
       createMany: {data: [
         {name: "React Native"},
@@ -33,7 +33,7 @@ async function main() {
   const hagyom = await prisma.category.create({data: {
     name: "Hagyományos programozás", 
     valid_from: new Date("2021-09-01"), 
-    valid_until: new Date("2022-09-01"),
+    valid_until: new Date("2024-11-01"),
     programmingLanguages: {
       createMany: {data: [
         {name: "Python"},
@@ -78,6 +78,18 @@ async function main() {
     user: {create: {
       role: 2,
       username: "harnos.istvan",
+      password: "$2a$12$DUB9D8a79PqaV6f8A2d05.JBuAGMAglctP5i8EjqVsjtTUq9nxyA2", // 1234
+    }}
+  }})
+
+  await prisma.school.create({data: {
+    name: "Kecskeméti Kodály Zoltán Ének Zenei Általános Iskola és Gimnázium",
+    address: "6000 Kecskemét, Dózsa György út 22",
+    contact_email: "kodaly@msn.net",
+    contact_name: "Kodály Zoltán",
+    user: {create: {
+      role: 2,
+      username: "kodaly.zoltan",
       password: "$2a$12$DUB9D8a79PqaV6f8A2d05.JBuAGMAglctP5i8EjqVsjtTUq9nxyA2", // 1234
     }}
   }})
@@ -139,6 +151,25 @@ async function main() {
     user: {create: {
       role: 1,
       username: "codemasters",
+      password: "$2a$12$DUB9D8a79PqaV6f8A2d05.JBuAGMAglctP5i8EjqVsjtTUq9nxyA2", // 1234
+    }}
+  }})
+
+  await prisma.team.create({data: {
+    name: "Legfőbb ügyész, Kovács Tamás",
+    category: { connect: { id: hagyom.id }},
+    programming_language: { connect: { id: (await prisma.programmingLanguage.findFirst({where: {name: "Python"}})).id }},
+    school: { connect: { id: bolyai.id }},
+    members: { createMany: {data:[
+      {name: "Kovács Tamás", grade: 13, substitute: false},
+      {name: "Kovács Tamás", grade: 12, substitute: false},
+      {name: "Kovács Tamás", grade: 13, substitute: false},
+      {name: "Kovács Tamás", grade: 11, substitute: true},
+    ]}},
+    teachers: "Kovács Tamás,Kovács Tamás",
+    user: {create: {
+      role: 1,
+      username: "kovacs.tamas",
       password: "$2a$12$DUB9D8a79PqaV6f8A2d05.JBuAGMAglctP5i8EjqVsjtTUq9nxyA2", // 1234
     }}
   }})
