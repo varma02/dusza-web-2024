@@ -317,38 +317,43 @@ const TeamPage = () => {
                     />
                   </div>
                 </div>
-                <div>
-                  <div className="flex items-center gap-4 pb-2">
-                    <span className="text-sm whitespace-nowrap">
-                      Pót csapattag
-                    </span>
-                    <Divider className="flex-1" />
-                  </div>
-                  <div className="flex flex-wrap gap-4">
-                    <Input
-                      {...register('member_sub_name')}
-                      className="min-w-32 flex-1"
-                      type="text"
-                      label="Név"
-                      placeholder="Pót csapattag neve"
-                      defaultValue={teamMembers.at(3)?.name}
-                      isInvalid={errors.member_sub_name !== undefined}
-                      errorMessage={errors.member_sub_name?.message}
-                      variant="bordered"
-                    />
-                    <Input
-                      {...register('member_sub_grade')}
-                      className="max-w-24"
-                      type="text"
-                      label="Évfolyam"
-                      placeholder="Évfolyam"
-                      defaultValue={String(teamMembers.at(3)?.grade || "")}
-                      isInvalid={errors.member_sub_grade !== undefined}
-                      errorMessage={errors.member_sub_grade?.message}
-                      variant="bordered"
-                    />
-                  </div>
-                </div>
+                {
+                  teamMembers.at(3)?.grade != 0 ? (
+                    <div>
+                      <div className="flex items-center gap-4 pb-2">
+                        <span className="text-sm whitespace-nowrap">
+                          Pót csapattag
+                        </span>
+                        <Divider className="flex-1" />
+                      </div>
+                      <div className="flex flex-wrap gap-4">
+                        <Input
+                          {...register('member_sub_name')}
+                          className="min-w-32 flex-1"
+                          type="text"
+                          label="Név"
+                          placeholder="Pót csapattag neve"
+                          defaultValue={teamMembers.at(3)?.name}
+                          isInvalid={errors.member_sub_name !== undefined}
+                          errorMessage={errors.member_sub_name?.message}
+                          variant="bordered"
+                        />
+                        <Input
+                          {...register('member_sub_grade')}
+                          className="max-w-24"
+                          type="text"
+                          label="Évfolyam"
+                          placeholder="Évfolyam"
+                          defaultValue={String(teamMembers.at(3)?.grade || "")}
+                          isInvalid={errors.member_sub_grade !== undefined}
+                          errorMessage={errors.member_sub_grade?.message}
+                          variant="bordered"
+                        />
+                      </div>
+                    </div>
+                  ) : <></>
+                }
+                
                 <Input
                   {...register('teachers')}
                   type="text"

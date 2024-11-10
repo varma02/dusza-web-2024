@@ -10,7 +10,6 @@ export const ExportToFile = async (
     type: "xlsx" | "csv",
     rawFields: string[]
 ) => {
-    console.log(rawFields)
     const fields: { name: string; key: string; }[] = [];
 
     for (const F of rawFields) {
@@ -42,8 +41,6 @@ export const ExportToFile = async (
 
     let finalFields: { label: string, key: string }[] = [];
 
-    console.log(fields)
-
     for (let Field of fields) {
         if (Field.key == "schoolDetails") {
             finalFields.push(
@@ -67,6 +64,8 @@ export const ExportToFile = async (
             finalFields.push({ label: Field.name, key: Field.key });
         }
     }
+
+    console.log(teams)
 
     const content = teams.map((team) => {
         return {
@@ -114,19 +113,27 @@ export const ExportToFile = async (
 
         r = Buffer.from(csv);
     } else if (type === "xlsx") {
+        console.log({
+            sheet: "Csapatok",
+            columns: finalFields.map(x => ({ label: x.label, value: x.key })),
+            content
+        })
+
         const xlsxData = [
             {
-                sheet: "Teams",
+                sheet: "Csapatok",
                 columns: finalFields.map(x => ({ label: x.label, value: x.key })),
                 content
             }
         ];
         
         r = xlsx(xlsxData, {
-            fileName: "Teams_Export",
+            fileName: "Csapatok_export",
             extraLength: 3, // Adjust column width if necessary
             writeOptions: {} // Additional options can go here if needed
         });
+
+        console.log(r)
     }
 
     if (r == undefined) {
