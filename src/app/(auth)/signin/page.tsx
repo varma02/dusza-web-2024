@@ -3,22 +3,19 @@
 import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Suspense, useContext, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { Suspense, useState } from "react"
+import { useSearchParams } from "next/navigation"
 
 import { signInSchema } from "@/schemas/signInSchema"
 import { handleCredentialsSignIn } from "@/actions/authActions"
 
-import { Card, CardBody, CardHeader, Input, Button, Spinner, Link } from "@nextui-org/react"
-import { MdVisibility, MdVisibilityOff, MdArrowBack } from "react-icons/md"
-import { ToasterContext } from "@/components/ToasterProvider"
+import { Card, CardBody, CardHeader, Input, Button, Spinner } from "@nextui-org/react"
+import { MdVisibility, MdVisibilityOff } from "react-icons/md"
 
 const SignInPage = () => {
-  const toaster = useContext(ToasterContext)
-
-  const router = useRouter()
   const searchParams = useSearchParams()
   const [ isPasswordVisible, setIsPasswordVisible ] = useState(false)
+  const [ globalError, setGlobalError ] = useState<string>()
 
   const { register, handleSubmit, formState: { isSubmitting, errors } } = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
@@ -29,10 +26,13 @@ const SignInPage = () => {
   })
 
   const onSubmit = async (values: z.infer<typeof signInSchema>) => {
-    const res = await handleCredentialsSignIn(values)
-    if (res) toaster.newToast(res.message, "danger", "Sikertelen bejelentkezés", 5000)
-    
-    router.push(searchParams.get("callbackUrl") || "/")
+    try {
+      const res = await handleCredentialsSignIn(values, searchParams.get("callbackUrl") || undefined)
+      if (res) setGlobalError(res.message)
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
+      if (!globalError) setGlobalError("Váratlan hiba történt")
+    }
   }
 
   return (
@@ -72,6 +72,7 @@ const SignInPage = () => {
             </button>
             }
           />
+          { globalError && <p className="text-center text-danger">{globalError}</p> }
           <div className="flex gap-2 mt-4">
             <Button
               as={Link}

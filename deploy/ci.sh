@@ -56,7 +56,7 @@ check_and_restart() {
     fi
 
     # Start a new screen session and run the application
-    start_screen $APP_NAME "$REPO_DIR/deploy/run.sh"
+    start_screen $APP_NAME "cd $REPO_DIR && npm run start"
   fi
 }
 
@@ -65,7 +65,7 @@ start_ci() {
   npm install
   npx prisma generate
   npm run build
-  start_screen $APP_NAME "$REPO_DIR/deploy/run.sh"
+  start_screen $APP_NAME "cd $REPO_DIR && npm run start"
   start_screen $CI_SCREEN_NAME "$0 inside_screen"
   echo "CI script and APP started."
 }
