@@ -65,8 +65,6 @@ export const ExportToFile = async (
         }
     }
 
-    console.log(teams)
-
     const content = teams.map((team) => {
         return {
             id: team.id,
@@ -99,18 +97,14 @@ export const ExportToFile = async (
         const csv = stringify([
             finalFields.map(x => x.label),
             ...content.map(x => {
-                const r: string[] = [];
+                const c: string[] = [];
 
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                for (const [_key, val] of Object.entries(x)) {
-                    r.push(val.toString())
-                }
-                
-                return r
+                // @ts-expect-error TS can't identify the array key
+                c.push(...finalFields.map(d => d.key).map(d => ((x[d]) || "1").toString()));
+
+                return c
             })
         ]);
-
-        console.log(csv);
 
         r = Buffer.from(csv);
     } else if (type === "xlsx") {
@@ -124,7 +118,7 @@ export const ExportToFile = async (
             {
                 sheet: "Csapatok",
                 columns: finalFields.map(x => ({ label: x.label, value: x.key })),
-                content
+                content: content
             }
         ];
         
