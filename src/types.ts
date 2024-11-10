@@ -1,7 +1,7 @@
 export enum UserRole {
   "TeamMember" = 1,
-  "School",
-  "Organizer",
+  "School" = 2,
+  "Organizer" = 3,
 }
 
 export interface MenuItem {

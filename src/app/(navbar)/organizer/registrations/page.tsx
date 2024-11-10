@@ -37,7 +37,7 @@ export default function OrganizerRegistrations() {
       name: t.name,
       category: t.category.name,
       programming_language: t.programming_language.name,
-      approved: t.approved ? "Igen" : "Nem",
+      approved: t.approved ? t.approved_by_school ? "Igen" : "Iskola válaszára vár" : "Nem",
       approved_by_school: t.approved_by_school ? "Igen" : "Nem",
       school: t.school.name,
       members: t.members.map((m) => `${m.name} (${m.grade})`).join(", "),

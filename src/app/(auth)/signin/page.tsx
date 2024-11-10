@@ -10,7 +10,7 @@ import { signInSchema } from "@/schemas/signInSchema"
 import { handleCredentialsSignIn } from "@/actions/authActions"
 
 import { Card, CardBody, CardHeader, Input, Button, Spinner } from "@nextui-org/react"
-import { MdVisibility, MdVisibilityOff } from "react-icons/md"
+import { MdArrowBack, MdVisibility, MdVisibilityOff } from "react-icons/md"
 
 const SignInPage = () => {
   const searchParams = useSearchParams()
@@ -75,7 +75,7 @@ const SignInPage = () => {
           { globalError && <p className="text-center text-danger">{globalError}</p> }
           <div className="flex gap-2 mt-4">
             <Button
-              as={Link}
+              as={"button"}
               href="/"
               isIconOnly
               type="submit"

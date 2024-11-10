@@ -22,7 +22,7 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
     {href: "/organizer/schools", label: "Iskolák", roles: [ UserRole.Organizer ]},
     {href: "/organizer/registrations", label: "Regisztrációk", roles: [ UserRole.Organizer ]},
     {href: "/team", label: "Irányítópult", roles: [ UserRole.TeamMember ]},
-    {href: "/team/notifications", label: "Hiánypótlás", roles: [ UserRole.TeamMember ]}
+    {href: "/team/notifications", label: "Üzenetek", roles: [ UserRole.TeamMember ]}
   ]
 
   return (
@@ -62,8 +62,12 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
       }
 
       <NavbarContent justify="end">
-        <NavbarItem className="hidden lg:flex">
-          {user?.name}
+        <NavbarItem
+          className="hidden lg:flex">
+            <Link
+              className="text-white"
+              href={user?.role == UserRole.Organizer ? '/organizer' : user?.role == UserRole.School ? '/school' : user?.role == UserRole.TeamMember ? '/team' : '/'}
+            >{ user?.name }</Link>
         </NavbarItem>
         <NavbarItem>
           <form action={handleSignOut}>
