@@ -31,7 +31,8 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
     {href: "/organizer/schools", label: "Iskolák", roles: [ UserRole.Organizer ]},
     {href: "/organizer/registrations", label: "Regisztrációk", roles: [ UserRole.Organizer ]},
     {href: "/team", label: "Irányítópult", roles: [ UserRole.TeamMember ]},
-    {href: "/team/notifications", label: "Hiánypótlás", roles: [ UserRole.TeamMember ]}
+    {href: "/team/notifications", label: "Hiánypótlás", roles: [ UserRole.TeamMember ]},
+    {href: "/school", label: "Jelentkezések", roles: [ UserRole.School ]}
   ]
 
   const { register, handleSubmit, formState: { isSubmitting, errors }, reset } = useForm<z.infer<typeof changePasswordSchema>>({
@@ -76,7 +77,7 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
         user?.role ? (
           <NavbarContent className="hidden sm:flex gap-4" justify="center">
             {menuItems.map((item) => (
-              item.roles === undefined || item.roles.includes(user?.role) ? (
+              item.roles.includes(user?.role) ? (
                 <NavbarItem key={item.href}>
                   <Link href={item.href} 
                   color={pathName == item.href ? "primary": "foreground"}
