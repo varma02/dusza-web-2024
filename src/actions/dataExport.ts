@@ -39,9 +39,9 @@ export const ExportToFile = async (
         }
     });
 
-    let finalFields: { label: string, key: string }[] = [];
+    const finalFields: { label: string, key: string }[] = [];
 
-    for (let Field of fields) {
+    for (const Field of fields) {
         if (Field.key == "schoolDetails") {
             finalFields.push(
                 { label: "Iskola címe", key: "schoolAddress" },
@@ -99,9 +99,10 @@ export const ExportToFile = async (
         const csv = stringify([
             finalFields.map(x => x.label),
             ...content.map(x => {
-                let r: string[] = [];
+                const r: string[] = [];
 
-                for (let [key, val] of Object.entries(x)) {
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                for (const [_key, val] of Object.entries(x)) {
                     r.push(val.toString())
                 }
                 
