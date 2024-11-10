@@ -68,14 +68,21 @@ export async function handleHiánypótlás(formData: FormData) {
     message,
     type: "hiánypótlás"
   }))
-  console.log(temp, selected, message);
   
-  try {
-    await prisma.notifications.createMany({data: [...temp]});
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
-    return {
-      message: "Nem sikerült az üzenet elküldése"
-    }
-  }
+  await prisma.notifications.createMany({data: [...temp]});
+}
+
+export async function handleTeamDelete(data: FormData) {
+  const selected = JSON.parse(data.get("selected") as string) as string[];
+  await prisma.team.deleteMany({where: {id: {in: selected}}});
+}
+
+export async function handleTeamApprove(selected: string) {
+  const parsed = JSON.parse(selected) as string[];
+  await prisma.team.updateMany({where: {id: {in: parsed}}, data: {approved: true}});
+}
+
+export async function handleTeamDisapprove(selected: string) {
+  const parsed = JSON.parse(selected) as string[];
+  await prisma.team.updateMany({where: {id: {in: parsed}}, data: {approved: false}});
 }

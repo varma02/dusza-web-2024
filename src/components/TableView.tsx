@@ -12,7 +12,7 @@ export default function TableView({columns, data, initial_visible, actions, isLo
   columns: {uid:string, name:string, sortable?: boolean}[], 
   data: {id:string, name:string, [key:string]:string|number}[], 
   initial_visible: string[],
-  actions?: {name: string, icon?: ReactNode, description?: string, handler: (selected: Selection) => void}[],
+  actions?: {name: string, icon?: ReactNode, description?: string, handler: (selected: Selection) => void, danger?: boolean}[],
   isLoading?: boolean
 }) {
   type DataType = typeof data[0];
@@ -158,6 +158,8 @@ export default function TableView({columns, data, initial_visible, actions, isLo
                 {actions.map((a) => (
                   <DropdownItem key={a.name}
                   description={a.description}
+                  color={a.danger ? "danger" : undefined}
+                  className={a.danger ? "text-danger" : ""}
                   startContent={a.icon}>
                     {a.name}
                   </DropdownItem>

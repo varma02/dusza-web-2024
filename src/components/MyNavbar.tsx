@@ -18,9 +18,9 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
 
   const menuItems = [
     {href: "/organizer", label: "Irányítópult", roles: [ UserRole.Organizer ] },
-    {href: "/organizer/registrations", label: "Regisztrációk", roles: [ UserRole.Organizer ]},
     {href: "/organizer/categories", label: "Kategóriák", roles: [ UserRole.Organizer ]},
     {href: "/organizer/schools", label: "Iskolák", roles: [ UserRole.Organizer ]},
+    {href: "/organizer/registrations", label: "Regisztrációk", roles: [ UserRole.Organizer ]},
     {href: "/team", label: "Irányítópult", roles: [ UserRole.TeamMember ]},
     {href: "/team/notifications", label: "Hiánypótlás", roles: [ UserRole.TeamMember ]}
   ]

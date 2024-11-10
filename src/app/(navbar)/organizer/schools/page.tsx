@@ -87,12 +87,13 @@ const SchoolsPage = () => {
         actions={[
           {
             name: "Hozzáadás", 
-            description: "Új iskola hozzáadása", 
+            description: "Új iskola létrehozása", 
             icon: <MdSchool size="1.5rem" />, 
             handler: () => addSchoolModal.onOpenChange(),
           },
           {
-            name: "Tölés",
+            danger: true,
+            name: "Törlés",
             description: "Kijelölt iskolák törlése",
             icon: <MdDelete size="1.5rem" />,
             handler: (s) => {

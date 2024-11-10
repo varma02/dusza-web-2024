@@ -1,5 +1,6 @@
 import { Button, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { motion } from "framer-motion";
+import { uniqueId } from "lodash";
 import { createContext, useState } from "react";
 import { MdCheckCircle, MdClose, MdDangerous, MdInfo, MdWarning } from "react-icons/md";
 
@@ -10,8 +11,7 @@ export const ToasterContext = createContext({
 
 export default function ToasterProvider({ children } : {children: React.ReactNode}) {
 
-  const [toastId, setToastId] = useState(0);
-  const [toasts, setToasts] = useState<{id: number, message:string, type:string, title?:string, timeout?: number}[]>([]);
+  const [toasts, setToasts] = useState<{id: string, message:string, type:string, title?:string, timeout?: number}[]>([]);
 
   return (
     <>
@@ -46,11 +46,10 @@ export default function ToasterProvider({ children } : {children: React.ReactNod
       ))}
     </aside>
     <ToasterContext.Provider value={{
-      newToast: (message, type, title, timeout) => {
-        const tid = toastId;
-        setToasts([...toasts, {id: tid, message, type: type || "info", title, timeout: timeout || 5000}]);
-        setTimeout(() => setToasts(toasts.filter((v) => v.id != tid )), timeout || 5000);
-        setToastId(toastId + 1);
+      newToast: (message, type, title, timeout) => {;
+        const tid = uniqueId();
+        setToasts((val) => [...val, {id: tid, message, type: type || "info", title, timeout: timeout || 5000}]);
+        setTimeout(() => setToasts((val)=>val.filter((v) => v.id != tid )), timeout || 5000);
       }
     }}>
       {children}
