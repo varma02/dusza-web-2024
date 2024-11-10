@@ -155,12 +155,14 @@ export const ExportToFile = async (
         content.push(rowData);
     }
 
+    let r: Buffer | undefined;
+
     if (type === "csv") {
         const csv = json2csv(content);
 
         console.log(csv);
 
-        return Buffer.from(csv);
+        r = Buffer.from(csv);
     } else if (type === "xlsx") {
         const xlsxData = [
             {
@@ -170,12 +172,16 @@ export const ExportToFile = async (
             }
         ];
         
-        const r = xlsx(xlsxData, {
+        r = xlsx(xlsxData, {
             fileName: "Teams_Export",
             extraLength: 3, // Adjust column width if necessary
             writeOptions: {} // Additional options can go here if needed
         });
-
-        return r;
     }
+
+    if (r == undefined) {
+        return new Blob()
+    }
+
+    return new Blob([r])
 }
