@@ -15,7 +15,7 @@ export default function ToasterProvider({ children } : {children: React.ReactNod
 
   return (
     <>
-    <aside className="fixed right-0 bottom-0 p-6 flex flex-col gap-4 z-40 xl:max-w-[25vw] sm:max-w-[50vw]">
+    <aside className="fixed right-0 bottom-0 p-6 flex flex-col gap-4 z-[100] xl:max-w-[25vw] sm:max-w-[50vw]">
       {toasts.map((toast) => (
         <Card key={toast.id} classNames={{base: "flex-row", header: "w-auto", body: "w-auto", footer: "w-auto"}}>
           <CardHeader className="text-3xl pr-0">

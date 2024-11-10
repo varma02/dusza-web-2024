@@ -73,12 +73,22 @@ const SignInPage = () => {
             }
           />
           { globalError && <p className="text-center text-danger">{globalError}</p> }
-          <Button
-            className="w-full mt-4"
-            type="submit"
-            color="primary"
-            isLoading={isSubmitting}
-          >Bejelentkezés</Button>
+          <div className="flex gap-2 mt-4">
+            <Button
+              as={Link}
+              href="/"
+              isIconOnly
+              type="submit"
+            >
+              <MdArrowBack />
+            </Button>
+            <Button
+              className="w-full"
+              type="submit"
+              color="primary"
+              isLoading={isSubmitting}
+            >Bejelentkezés</Button>
+          </div>
         </form>
       </CardBody>
     </Card>

@@ -29,6 +29,18 @@ export const handleCredentialsSignIn = async (
   }
 }
 
+export const getSignUpProps = async () => {
+  const schools = await prisma.school.findMany({ select: { id: true, name: true }, orderBy: { name: "asc" } })
+  const categories = await prisma.category.findMany({
+      select: { id: true, name: true },
+      where: { valid_from: { lte: new Date() }, valid_until: { gt: new Date() }}
+    }
+  )
+  const programmingLanguages = await prisma.programmingLanguage.findMany({ select: { id: true, name: true } })
+
+  return { schools, categories, programmingLanguages }
+}
+
 export const handleSignUp = async (values: unknown) => {
   const parsedValues = signUpSchema.safeParse(values)
 
@@ -70,5 +82,7 @@ export const handleSignUp = async (values: unknown) => {
 }
 
 export const handleSignOut = async () => {
-  await signOut()
+  await signOut({
+    redirectTo: "/signin"
+  })
 }

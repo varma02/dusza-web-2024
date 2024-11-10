@@ -70,5 +70,12 @@ export async function handleHiánypótlás(formData: FormData) {
   }))
   console.log(temp, selected, message);
   
-  await prisma.notifications.createMany({data: [...temp]});
+  try {
+    await prisma.notifications.createMany({data: [...temp]});
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return {
+      message: "Nem sikerült az üzenet elküldése"
+    }
+  }
 }

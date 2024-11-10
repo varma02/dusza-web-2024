@@ -3,8 +3,9 @@
 import TableView from "@/components/TableView";
 import { MdTextSnippet } from "react-icons/md";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Textarea, useDisclosure } from "@nextui-org/react";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { handleHiánypótlás, organizerLoadRegistrations } from "@/actions/organizerActions";
+import { ToasterContext } from "@/components/ToasterProvider";
 
 const columns = [
   {name: "ID", uid: "id", sortable: true},
@@ -19,6 +20,7 @@ const columns = [
 ];
 
 export default function OrganizerRegistrations() {
+  const toaster = useContext(ToasterContext)
 
   const hianypotlasModal = useDisclosure();
   const [selected, setSelected] = useState<Selection>(new Set([]));
@@ -39,6 +41,13 @@ export default function OrganizerRegistrations() {
       created_at: new Date(t.created_at).toLocaleString('hu'),
     }))), (e) => console.warn(e));
   }, [])
+
+  const handleAction = async (formData: FormData) => {
+    const res = await handleHiánypótlás(formData)
+    if (res) return toaster.newToast(res.message, "danger", "Sikertelen üzenetküldés", 5000)
+
+      return toaster.newToast("Üzenet sikeresen elküldve", "success", "Sikeres üzenetküldés", 5000)
+  }
 
   return (
     <main className="flex flex-col gap-6 p-2">
@@ -65,7 +74,7 @@ export default function OrganizerRegistrations() {
       >
         <ModalContent>
           {(onClose) => (
-            <form className="contents" action={handleHiánypótlás}>
+            <form className="contents" action={handleAction}>
               <ModalHeader className="flex flex-col gap-1">
                 Új hiánypótlás
               </ModalHeader>
@@ -78,7 +87,7 @@ export default function OrganizerRegistrations() {
                 <Button color="default" onPress={onClose}>
                   Mégse
                 </Button>
-                <Button color="primary" type="submit">
+                <Button color="primary" type="submit" onPress={onClose}>
                   Küldés
                 </Button>
               </ModalFooter>
