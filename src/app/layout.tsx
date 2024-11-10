@@ -3,6 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { Providers } from "./providers";
 import NextTopLoader from "nextjs-toploader";
 import "./globals.css";
+import { Link } from "@nextui-org/react";
 
 export const metadata: Metadata = {
   title: "Dusza VJF",
@@ -34,8 +35,17 @@ Readonly<{children: React.ReactNode;}>) {
             {children}
           </Providers>
           
-          <footer className="mt-20 bg-content1 w-screen p-6 flex items-center justify-center text-foreground/70">
-            Made with ❤️ by the KandOS team.
+          <footer className="mt-20 bg-content1 w-screen p-6 gap-2 flex items-center text-foreground/70">
+            <div className="flex gap-4">
+              <Link showAnchorIcon color="foreground" href="https://github.com/varma02/dusza-web-2024">Github</Link>
+            </div>
+            <div className="mx-auto flex flex-col items-center">
+              <h6>Made with ❤️ by the KandOS team.</h6>
+              <p>Licensed under the MIT License.</p>
+            </div>
+            <div>
+              <Link color="foreground" href="/organizer">Admin</Link>
+            </div>
           </footer>
         </body>
       </html>

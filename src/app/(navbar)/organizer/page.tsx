@@ -44,9 +44,9 @@ export default function OrganizerDashboard() {
           <h2 className="font-semibold text-2xl">Regisztrációk</h2>
           <MdChevronRight size="1.5rem" className="opacity-0 transition-all group-hover:opacity-100" />
         </CardHeader>
-        <CardBody className="flex-row justify-center flex-1">
+        <CardBody className="flex-row flex-wrap justify-center flex-1">
           {data && filteredData ? filteredData.map((categ) => (
-          <div className="flex flex-col flex-1 min-w-72" key={categ.id}>
+          <div className="flex flex-col flex-1 min-w-72 min-h-[30rem] pb-4" key={categ.id}>
             <h3 className="text-center font-semibold">{categ.name}</h3>
             <h4 className="text-2xl font-bold text-foreground-400 text-center">{categ.teams.length} csapat</h4>
             <ResponsiveContainer height="100%">

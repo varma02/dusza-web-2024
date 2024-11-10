@@ -42,6 +42,10 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         return Response.redirect(new URL("/", nextUrl))
       }
 
+      if (pathname.startsWith("/team") && isSignedIn && role !== UserRole.TeamMember) {
+        return Response.redirect(new URL("/", nextUrl))
+      }
+
       return !!auth
     },
     jwt({ token, user }) {

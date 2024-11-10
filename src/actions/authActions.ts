@@ -1,10 +1,12 @@
 "use server"
 
-import { signIn, signOut } from "@/auth"
+import { z } from "zod"
+import { auth, signIn, signOut } from "@/auth"
 import prisma from "@/lib/db"
 import { AuthError } from "next-auth"
 import { signUpSchema } from "@/schemas/signUpSchema"
-import { hashSync } from "bcryptjs"
+import { compareSync, hashSync } from "bcryptjs"
+import { changePasswordSchema } from "@/schemas/changePasswordSchema"
 
 export const handleCredentialsSignIn = async (
   {
@@ -13,19 +15,43 @@ export const handleCredentialsSignIn = async (
   } : { 
     username: string,
     password: string
-  },
-  callbackUrl?: string
+  }
 ) => {
   try {
-    await signIn("credentials", { username, password, redirectTo: callbackUrl })
+    await signIn("credentials", { username, password })
   } catch (error) {
     if (error instanceof AuthError && error.type === "CredentialsSignin") {
       return {
         message: "Helytelen felhasználónév és/vagy jelszó"
       }
     }
+  }
+}
 
-    throw error
+export const handleChangePassword = async (values: z.infer<typeof changePasswordSchema>) => {
+  try {
+    const session = await auth()
+    const user = await prisma.user.findUnique({ where: { id: session?.user.id } })
+
+    if (!user) {
+      return { message: "Felhasználó nem található" }
+    }
+
+    if (!compareSync(values.password, user.password)) {
+      return { message: "Helytelen jelszó került megadásra" }
+    }
+
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashSync(values.newPassword)
+      }
+    })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return {
+      message: "Nem sikerült a jelszót megváltoztatni"
+    }
   }
 }
 
@@ -58,7 +84,7 @@ export const handleSignUp = async (values: unknown) => {
 
     const team = await prisma.team.create({
       data: {
-        user_id: user.id, name, school_id: school, teachers: teachers.trim().replace(', ', ','), category_id: category, programming_language_id: programming_language,
+        user_id: user.id, name, school_id: school, teachers: teachers.split(",").map(teacher => teacher.trim()).join(","), category_id: category, programming_language_id: programming_language,
       }
     })
   
