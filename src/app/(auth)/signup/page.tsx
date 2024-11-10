@@ -8,7 +8,7 @@ import { signUpSchema } from "@/schemas/signUpSchema"
 import { getSignUpProps, handleSignUp } from "@/actions/authActions"
 import Link from "next/link"
 
-import { Card, CardBody, CardHeader, Input, Select, SelectItem, Autocomplete, AutocompleteItem, Divider, Button } from "@nextui-org/react"
+import { Card, CardBody, CardHeader, Input, Select, SelectItem, Divider, Button } from "@nextui-org/react"
 import { MdArrowBack, MdVisibility, MdVisibilityOff } from "react-icons/md"
 import { ToasterContext } from "@/components/ToasterProvider"
 
@@ -112,23 +112,20 @@ const SignUpPage = () => {
             isInvalid={errors.name !== undefined}
             errorMessage={errors.name?.message}
           />
-          <Autocomplete
+          <Select
             {...register("school")}
             label="Iskola"
             placeholder="Válasszon iskolát"
             variant="faded"
             isInvalid={errors.school !== undefined}
             errorMessage={errors.school?.message}
-            listboxProps={{
-              emptyContent: "Nincs találat"
-            }}
           >
             {schools.map(school => (
-              <AutocompleteItem key={school.id} value={school.id}>
+              <SelectItem key={school.id} value={school.id}>
                 {school.name}
-              </AutocompleteItem>
+              </SelectItem>
             ))}
-          </Autocomplete>
+          </Select>
           <div>
             <div className="flex items-center gap-4 pb-2">
               <span className="text-sm whitespace-nowrap">Első csapattag</span>

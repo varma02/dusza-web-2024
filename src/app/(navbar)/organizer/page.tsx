@@ -1,16 +1,19 @@
 'use client'
 
 import { Bar, BarChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Card, CardBody, CardHeader, Link, CardFooter, Button, ScrollShadow, CheckboxGroup, Checkbox, Spinner, RadioGroup, Radio, Divider } from "@nextui-org/react";
-import { MdChevronRight, MdFilterAltOff } from "react-icons/md";
+import { Card, CardBody, CardHeader, Link, CardFooter, Button, ScrollShadow, CheckboxGroup, Checkbox, Spinner, RadioGroup, Radio, Divider, Select, SelectItem, Selection } from "@nextui-org/react";
+import { MdChevronRight, MdFileDownload, MdFilterAltOff } from "react-icons/md";
 import { useEffect, useMemo, useState } from "react";
 import { organizerLoadDashboard } from "@/actions/organizerActions";
+import ListboxSelector from "@/components/ListboxSelector";
 
 export default function OrganizerDashboard() {
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [peFilter, setPEFilter] = useState<Set<string>>(new Set());
 
   const [data, setData] = useState<ReturnType<typeof organizerLoadDashboard> extends Promise<infer R> ? R : never | null>();
+
+  const [exportSelectedFormat, setExportSelectedFormat] = useState<Selection>(new Set(['csv']));
 
   const filteredData = useMemo(() => {
     if (!data) return null;
@@ -127,9 +130,45 @@ export default function OrganizerDashboard() {
         <CardHeader>
           <h2 className="font-semibold text-2xl">Adatok exportálása</h2>
         </CardHeader>
-        <CardBody>
-          
-        </CardBody>
+        <form className="contents" action={(data: FormData)=>{
+          console.log("TODO: handle export", data)
+        }}>
+          <CardBody className="gap-4 flex-1">
+          <Select isRequired name="format" 
+          selectedKeys={exportSelectedFormat} onSelectionChange={setExportSelectedFormat}
+          label="Formátum" labelPlacement="outside">
+            <SelectItem key="csv">
+              CSV (.csv)
+            </SelectItem>
+            <SelectItem key="xlsx">
+              Excel (.xlsx)
+            </SelectItem>
+          </Select>
+          <ListboxSelector name="columns" label="Oszlopok" options={[
+            {name: "Csapat ID", key: "id"},
+            {name: "Elfogadava", key: "approved"},
+            {name: "Iskola elfogadta", key: "approved_by_school"},
+            {name: "Csapat Név", key: "name"},
+            {name: "Kategória neve", key: "category_name"},
+            {name: "Programozási környezet neve", key: "programming_language_name"},
+            {name: "Iskola ID", key: "school_id"},
+            {name: "Iskola neve", key: "school_name"},
+            {name: "Iskola címe", key: "school_address"},
+            {name: "Iskola kapcsolat email", key: "school_contact_email"},
+            {name: "Iskola kapcsolat neve", key: "school_contact_name"},
+            {name: "Csapattagok neve", key: "members_name"},
+            {name: "Csapattagok évfolyama", key: "members_grade"},
+            {name: "Felkészítő tanár(ok)", key: "teachers"},
+            {name: "Jelentketés dátuma", key: "created_at"},
+          ]} />
+          </CardBody>
+          <CardFooter>
+            <Button color="primary" type="submit"
+            startContent={<MdFileDownload />}>
+              Exportálás
+            </Button>
+          </CardFooter>
+        </form>
       </Card>
 
       <Card className="col-span-2">
