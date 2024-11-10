@@ -8,8 +8,15 @@ const prisma = new PrismaClient();
 
 export const ExportToFile = async (
     type: "xlsx" | "csv",
-    fields: { name: string; key: string; }[]
+    rawFields: string[]
 ) => {
+    console.log(rawFields)
+    const fields: { name: string; key: string; }[] = [];
+
+    for (const F of rawFields) {
+        fields.push(JSON.parse(F));
+    }
+
     const teams = await prisma.team.findMany({
         include: {
             category: {
@@ -34,6 +41,8 @@ export const ExportToFile = async (
     });
 
     let finalFields: { label: string, key: string }[] = [];
+
+    console.log(fields)
 
     for (let Field of fields) {
         if (Field.key == "schoolDetails") {
@@ -89,7 +98,7 @@ export const ExportToFile = async (
 
     if (type === "csv") {
         const csv = stringify([
-            ...finalFields.map(x => x.label),
+            finalFields.map(x => x.label),
             ...content.map(x => {
                 let r: string[] = [];
 
