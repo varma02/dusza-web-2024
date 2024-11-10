@@ -67,14 +67,8 @@ export const getSignUpProps = async () => {
   return { schools, categories, programmingLanguages }
 }
 
-export const handleSignUp = async (values: unknown) => {
-  const parsedValues = signUpSchema.safeParse(values)
-
-  if (!parsedValues.success) return {
-    message: "Hibás adatok kerültek megadásra!"
-  }
-
-  const { username, password, name, school, teachers, category, programming_language } = parsedValues.data
+export const handleSignUp = async (values: z.infer<typeof signUpSchema>) => {
+  const { username, password, name, school, teachers, category, programming_language } = values
 
   try {
     const user = await prisma.user.create({ data: {
@@ -89,13 +83,13 @@ export const handleSignUp = async (values: unknown) => {
     })
   
     const data = [
-      { name: parsedValues.data.member_1_name, grade: Number(parsedValues.data.member_1_grade), substitute: false, team_id: team.id },
-      { name: parsedValues.data.member_2_name, grade: Number(parsedValues.data.member_2_grade), substitute: false, team_id: team.id },
-      { name: parsedValues.data.member_3_name, grade: Number(parsedValues.data.member_3_grade), substitute: false, team_id: team.id }
+      { name: values.member_1_name, grade: Number(values.member_1_grade), substitute: false, team_id: team.id },
+      { name: values.member_2_name, grade: Number(values.member_2_grade), substitute: false, team_id: team.id },
+      { name: values.member_3_name, grade: Number(values.member_3_grade), substitute: false, team_id: team.id }
     ]
   
-    if (parsedValues.data.member_sub_name && parsedValues.data.member_sub_grade) {
-      data.push({ name: parsedValues.data.member_sub_name, grade: Number(parsedValues.data.member_sub_grade), substitute: true, team_id: team.id })
+    if (values.member_sub_name && values.member_sub_grade) {
+      data.push({ name: values.member_sub_name, grade: Number(values.member_sub_grade), substitute: true, team_id: team.id })
     }
   
     await prisma.teamMember.createMany({ data })

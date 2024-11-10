@@ -99,7 +99,7 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
                 <span className="lg:inline hidden">{user?.name}</span>
               </Button>
             </DropdownTrigger>
-            <DropdownMenu 
+            <DropdownMenu
               aria-label="Felhasználói fiók"
               onAction={(k) => {
                 if (k == "change_password") {
