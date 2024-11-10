@@ -13,7 +13,7 @@ export default function ListboxSelector({ options, label, name }
     return (
       <div className="w-full flex flex-wrap py-0.5 px-2 gap-1">
         {arrayValues.map((value) => (
-          <Chip key={value}>{options.find((opt) => `${opt.key}` === `${value}`)?.name}</Chip>
+          <Chip key={value}>{options.find((opt) => `${JSON.stringify(opt)}` === `${value}`)?.name}</Chip>
         ))}
       </div>
     );
@@ -36,7 +36,7 @@ export default function ListboxSelector({ options, label, name }
           variant="flat"
         >
           {(opt) => (
-            <ListboxItem key={opt.key} textValue={opt.name}>
+            <ListboxItem key={JSON.stringify(opt)}>
               {opt.name}
             </ListboxItem>
           )}
