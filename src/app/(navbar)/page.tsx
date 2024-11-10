@@ -24,17 +24,17 @@ export default async function Home() {
 
       <div className="cool-bg-gradient w-screen h-screen absolute z-0"></div>
 
-      <section className="flex flex-col items-center max-w-screen-2xl h-screen" id="introduction">
+      <section className="flex flex-col items-center max-w-screen-2xl min-h-screen" id="introduction">
         <Image src={Logo.src} alt="AI generált logo" height="10rem"
         className="mt-10" />
         <h1 className="text-4xl font-semibold text-center opacity-90 mt-10 leading-normal">
           <span className="text-6xl">Dusza Árpád</span> <br /> Országos Programozói Emlékverseny
         </h1>
-        <h2 className="text-5xl font-bold text-foreground/80 pt-1">
+        <h2 className="text-5xl font-bold text-foreground/40 pt-1 z-10">
           2024 - 2025
         </h2>
 
-        <div className="grid grid-cols-3 gap-6 max-w-screen-2xl mt-6">
+        <div className="lg:grid lg:grid-cols-3 flex flex-col gap-6 max-w-screen-2xl mt-6">
           <Card className="bg-content1/80 backdrop-blur-xl p-6">
             <CardHeader>
               <BsGlobe size="4rem" />
@@ -75,11 +75,11 @@ export default async function Home() {
       </section>
       
 
-      <section className="h-screen max-w-screen-2xl flex flex-col justify-center" id="register-now">
+      <section className="min-h-screen max-w-screen-2xl flex flex-col justify-center" id="register-now">
         <h2 className="text-6xl font-semibold text-center">Regisztrálj most!</h2>
 
-        <div className="flex gap-6 mt-10">
-          <div className="flex flex-col gap-6">
+        <div className="flex lg:flex-row flex-col items-center gap-6 mt-10">
+          <div className="flex flex-col gap-6 p-4">
             <Card className="p-4">
               <p className="text-4xl">
                 <FaUsers className="inline mr-2" /> 3 fős csapat
@@ -97,9 +97,10 @@ export default async function Home() {
             </Card>
           </div>
 
-          <Divider orientation="vertical" className="flex-1 h-auto" />
+          <Divider orientation="vertical" className="flex-1 h-auto lg:block hidden" />
+          <Divider className="flex-1 h-auto lg:hidden" />
 
-          <div className="grid grid-cols-4 grid-rows-3 gap-6 pr-10">
+          <div className="grid grid-cols-4 grid-rows-3 gap-6 lg:pr-10">
             <Card className="p-4 w-[4.5rem]"><Image alt="Python logo" src={PythonIcon.src} /></Card>
             <Card className="p-4 w-[4.5rem]"><Image alt="C sharp logo" src={CsharpIcon.src} /></Card>
             <Card className="p-4 w-[4.5rem]"><Image alt="Java logo" src={JavaIcon.src} /></Card>

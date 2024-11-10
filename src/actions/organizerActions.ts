@@ -1,12 +1,51 @@
 'use server'
 
 import prisma from "@/lib/db";
+import { parseZonedDateTime } from "@internationalized/date";
 
 export async function organizerLoadDashboard() {
   const categories = await prisma.category.findMany({select: {id: true, name: true, valid_until: true, teams: {select: {_count: true}}}});
   const graph_data = await prisma.category.findMany({include: {teams: {select: {_count: true}}, programmingLanguages: {include: {teams: {select: {_count: true}}}}}});
   const environments = await prisma.category.findMany({select: {id: true, name: true, programmingLanguages: {select: {id: true, name: true}}}});
   return {categories, graph_data, environments};
+}
+
+export async function organizerLoadCategories() {
+  const categories = await prisma.category.findMany({include: {programmingLanguages: true}});
+  return categories;
+}
+
+export async function handleCategoryUpdate(data: FormData) {
+  const id = data.get("id") as string;
+  const name = data.get("name") as string;
+  const valid_until = parseZonedDateTime(data.get("valid_until") as string).toDate();
+  console.log(id, name, valid_until);
+  
+  if (id == "new_category") {
+    await prisma.category.create({data: {name, valid_until, valid_from: new Date()}});
+  } else {
+    await prisma.category.update({where: {id}, data: {name, valid_until}});
+  }
+}
+
+export async function handleCategoryDelete(id: string) {
+  await prisma.programmingLanguage.deleteMany({where: {category: {id}}});
+  await prisma.category.delete({where: {id}});
+}
+
+export async function handleProgrammingLanguageUpdate(data: FormData) {
+  const category_id = data.get("category_id") as string;
+  const id = data.get("id") as string;
+  const name = data.get("name") as string;
+  if (id == "new_programming_language") {
+    await prisma.programmingLanguage.create({data: {name, category: {connect: {id: category_id}}}});
+  } else {
+    await prisma.programmingLanguage.update({where: {id}, data: {name, category: {connect: {id: category_id}}}});
+  }
+}
+
+export async function handleProgrammingLanguageDelete(id: string) {
+  await prisma.programmingLanguage.delete({where: {id}});
 }
 
 export async function organizerLoadRegistrations() {
