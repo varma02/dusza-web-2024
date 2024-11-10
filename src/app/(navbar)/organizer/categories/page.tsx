@@ -1,6 +1,6 @@
 'use client'
 
-import { handleCategoryDelete, handleCategoryUpdate, handleProgrammingLanguageUpdate, organizerLoadCategories } from "@/actions/organizerActions";
+import { handleCategoryDelete, handleCategoryUpdate, handleProgrammingLanguageDelete, handleProgrammingLanguageUpdate, organizerLoadCategories } from "@/actions/organizerActions";
 import { Button, Card, DatePicker, DateValue, Input, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Spinner, useDisclosure } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
 import { MdAdd, MdChevronRight, MdDelete, MdSave, MdTextSnippet } from "react-icons/md";
@@ -166,7 +166,7 @@ export default function CategoriesPage() {
               Mentés
           </Button>
           <Button  onPress={() => {
-                  handleCategoryDelete([...selectedProgrammingLanguage][0].toString())
+                  handleProgrammingLanguageDelete([...selectedProgrammingLanguage][0].toString())
                   .then(() => newToast("Sikeres törlés", "success", "", 5000), 
                   () => newToast("Nem sikerült törölni a programozási környezetet", "danger", "Hiba történt", 5000))
                   .finally(() => fetchCategories());

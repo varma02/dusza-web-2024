@@ -29,7 +29,9 @@ export async function handleCategoryUpdate(data: FormData) {
 }
 
 export async function handleCategoryDelete(id: string) {
-  await prisma.programmingLanguage.deleteMany({where: {category: {id}}});
+  const category = await prisma.category.findUnique({where: {id}});
+  if (!category) throw new Error("Category not found");
+  await prisma.programmingLanguage.deleteMany({where: {category: {id: category.id}}});
   await prisma.category.delete({where: {id}});
 }
 
@@ -45,6 +47,8 @@ export async function handleProgrammingLanguageUpdate(data: FormData) {
 }
 
 export async function handleProgrammingLanguageDelete(id: string) {
+  const category = await prisma.programmingLanguage.findUnique({where: {id}});
+  if (!category) throw new Error("Programming language not found");
   await prisma.programmingLanguage.delete({where: {id}});
 }
 
