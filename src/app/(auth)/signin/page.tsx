@@ -9,8 +9,8 @@ import { useSearchParams } from "next/navigation"
 import { signInSchema } from "@/schemas/signInSchema"
 import { handleCredentialsSignIn } from "@/actions/authActions"
 
-import { Card, CardBody, CardHeader, Input, Button, Spinner } from "@nextui-org/react"
-import { MdVisibility, MdVisibilityOff } from "react-icons/md"
+import { Card, CardBody, CardHeader, Input, Button, Spinner, Link } from "@nextui-org/react"
+import { MdArrowBack, MdVisibility, MdVisibilityOff } from "react-icons/md"
 
 const SignInPage = () => {
   const searchParams = useSearchParams()

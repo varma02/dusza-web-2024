@@ -7,8 +7,8 @@ import { useContext, useEffect, useState } from "react"
 import { signUpSchema } from "@/schemas/signUpSchema"
 import { getSignUpProps, handleSignUp } from "@/actions/authActions"
 
-import { Card, CardBody, CardHeader, Input, Select, SelectItem, Divider, Button } from "@nextui-org/react"
-import { MdVisibility, MdVisibilityOff } from "react-icons/md"
+import { Card, CardBody, CardHeader, Input, Select, SelectItem, Divider, Button, Link } from "@nextui-org/react"
+import { MdArrowBack, MdVisibility, MdVisibilityOff } from "react-icons/md"
 import { ToasterContext } from "@/components/ToasterProvider"
 
 interface SelectProps {
@@ -277,12 +277,22 @@ const SignUpPage = () => {
             ))}
           </Select>
           { globalError && <p className="text-center text-danger">{globalError}</p> }
-          <Button
-            className="w-full mt-4"
-            type="submit"
-            color="primary"
-            isLoading={isSubmitting}
-          >Regisztráció</Button>
+          <div className="flex-1 flex gap-4 mt-4">
+            <Button
+              as={Link}
+              href="/"
+              isIconOnly
+              type="submit"
+            >
+              <MdArrowBack />
+            </Button>
+            <Button
+              className="w-full"
+              type="submit"
+              color="primary"
+              isLoading={isSubmitting}
+            >Regisztráció</Button>
+          </div>
         </form>
       </CardBody>
     </Card>
