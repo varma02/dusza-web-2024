@@ -1,22 +1,21 @@
 version: '3.8'
 services:
   devcontainer:
-    image: mcr.microsoft.com/devcontainers/base:ubuntu-22.04
+    image: mcr.microsoft.com/devcontainers/base:debian
     volumes:
       - ../..:/workspaces:cached
-    network_mode: service:mysql
     command: sleep infinity
 
   mysql:
-    image: mysql:8.0
+    image: postgres:alpine
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: dusza
-      MYSQL_PASSWORD: fCJNZhe$$527P@FcV
-      MYSQL_DATABASE: duszadb
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: duszadb
+      PGDATA: /var/lib/postgresql/data/pgdata
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/var/lib/postgresql/data
 
 volumes:
   db-data:

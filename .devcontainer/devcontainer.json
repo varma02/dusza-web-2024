@@ -5,15 +5,13 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	// "image": "mcr.microsoft.com/devcontainers/base:jammy",
 	"features": {
-		"ghcr.io/devcontainers/features/node:1": {
-			"nodeGypDependencies": true,
-			"version": true,
-			"pnpmVersion": "latest",
-			"nvmVersion": "latest"
-		},
-		"ghcr.io/devcontainers-community/npm-features/typescript:1": {
-			"version": "latest"
-		}
+		// "ghcr.io/devcontainers/features/node:1": {
+		// 	"nodeGypDependencies": true,
+		// 	"version": true,
+		// 	"pnpmVersion": "latest",
+		// 	"nvmVersion": "latest"
+		// },
+		"ghcr.io/michidk/devcontainers-features/bun:1": {}
 	},
 
 	"dockerComposeFile": "docker-compose.yml",
@@ -36,7 +34,8 @@
 				"mtxr.sqltools",
 				"mtxr.sqltools-driver-mysql",
 				"Prisma.prisma",
-				"bradlc.vscode-tailwindcss"
+				"bradlc.vscode-tailwindcss",
+				"formulahendry.auto-rename-tag"
 			]
 		}
 	}
