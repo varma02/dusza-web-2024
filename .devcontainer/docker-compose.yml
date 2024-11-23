@@ -6,7 +6,7 @@ services:
       - ../..:/workspaces:cached
     command: sleep infinity
 
-  mysql:
+  postgres:
     image: postgres:alpine
     restart: unless-stopped
     environment:

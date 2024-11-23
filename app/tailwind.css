@@ -4,10 +4,18 @@
 
 @layer base {
   html, body {
-    @apply bg-white dark:bg-gray-950;
+    @apply bg-zinc-100 dark:bg-zinc-950 scroll-smooth;
   
     @media (prefers-color-scheme: dark) {
       color-scheme: dark;
     }
+  }
+}
+
+@layer utilities {
+  .cool-bg-gradient {
+    background: radial-gradient(circle at right center,#4b296980,#563277,#4a378c 50%,#4066a8 70%,#32517380);
+    -webkit-mask-image: radial-gradient(ellipse 80% 40% at center center,#000 20%,#00000080 50%,#0000);
+    mask-image: radial-gradient(ellipse 80% 40% at center center,#000 20%,#00000080 50%,#0000);
   }
 }
