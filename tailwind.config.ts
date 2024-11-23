@@ -3,14 +3,14 @@ import { nextui } from "@nextui-org/react";
 
 export default {
   content: [
-    "./app/**/{**,.client,.server}/**/*.{js,jsx,ts,tsx}",
+    "./app/**/*.{js,jsx,ts,tsx}",
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
       fontFamily: {
         sans: [
-          "Inter",
+          "Poppins",
           "ui-sans-serif",
           "system-ui",
           "sans-serif",
