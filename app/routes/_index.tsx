@@ -1,6 +1,5 @@
 import { Image, Card, CardHeader, Button, CardBody, CardFooter, Divider, Link } from '@nextui-org/react'
-import { BsPhoneVibrate, BsCodeSquare } from 'react-icons/bs';
-import { MdCalendarMonth, MdGroups, MdLanguage, MdSchool } from 'react-icons/md';
+import { MdCalendarMonth, MdGroups, MdLanguage, MdPhoneIphone, MdSchool, MdCode } from 'react-icons/md';
 
 export default function Index() {
   return (
@@ -33,7 +32,7 @@ export default function Index() {
           </Card>
           <Card className="bg-content1/80 backdrop-blur-xl p-6">
             <CardHeader>
-              <BsPhoneVibrate size="4rem" className="scale-110" />
+              <MdPhoneIphone size="4rem" className="scale-110" />
             </CardHeader>
             <CardBody>
               <h2 className="font-semibold text-2xl">Mobil fejlesztés</h2>
@@ -45,7 +44,7 @@ export default function Index() {
           </Card>
           <Card className="bg-content1/80 backdrop-blur-xl p-6">
             <CardHeader>
-              <BsCodeSquare size="4rem" />
+              <MdCode size="4rem" />
             </CardHeader>
             <CardBody>
               <h2 className="font-semibold text-2xl">Hagyományos programozás</h2>
