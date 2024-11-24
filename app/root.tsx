@@ -6,6 +6,7 @@ import { NextUIProvider } from "@nextui-org/react";
 import MyNavbar from "./components/MyNavbar";
 import MyFooter from "./components/MyFooter";
 import ToastProvider from "./components/ToastProvider";
+import TopLoader from "./components/TopLoader";
 
 export const links: LinksFunction = () => [
   { 
@@ -43,6 +44,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <body>
         <NextUIProvider navigate={navigate} useHref={useHref}>
           <ToastProvider>
+            <TopLoader />
             <MyNavbar />
             {children}
             <MyFooter />

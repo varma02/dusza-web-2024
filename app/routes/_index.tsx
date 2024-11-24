@@ -99,8 +99,8 @@ export default function Index() {
           </div>
         </div>
 
-        <Button as={Link} href="/signup" className="mt-10 py-8 px-12 text-2xl font-semibold w-max mx-auto" color="primary">Regisztrálok</Button>
-        <Link href="/signin" className="text-xl mx-auto mt-6 opacity-70 hover:underline" color="foreground">Már regisztráltam</Link>
+        <Button as={Link} href="/register" className="mt-10 py-8 px-12 text-2xl font-semibold w-max mx-auto" color="primary">Regisztrálok</Button>
+        <Link href="/login" className="text-xl mx-auto mt-6 opacity-70 hover:underline" color="foreground">Már regisztráltam</Link>
       </section>
     </article>
   );
