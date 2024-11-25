@@ -8,7 +8,7 @@ export default function Index() {
       <div className="cool-bg-gradient w-screen h-screen absolute z-0"></div>
 
       <section className="flex flex-col items-center max-w-screen-2xl min-h-screen" id="introduction">
-        <Image src="logo-min.webp" alt="AI generált logo" height="10rem"
+        <Image src="/logo-min.webp" alt="AI generált logo" height="10rem"
         className="mt-10" />
         <h1 className="text-4xl font-semibold text-center opacity-90 mt-10 leading-normal">
           <span className="text-6xl">Dusza Árpád</span> <br /> Országos Programozói Emlékverseny

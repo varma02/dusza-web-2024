@@ -1,12 +1,16 @@
 import { Button, Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { MdCheckCircle, MdClose, MdDangerous, MdInfo, MdWarning } from "react-icons/md";
-import { createContext, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
 
-export const ToasterContext = createContext({
+const ToastContext = createContext({
   newToast: (type: "info" | "danger" | "warning" | "success", message: string, title?: string, timeout?: number) => {console.log(message, type, title, timeout)},
 });
+
+export function useToaster() {
+  return useContext(ToastContext);
+}
 
 export default function ToastProvider({ children } : {children: React.ReactNode}) {
 
@@ -54,7 +58,7 @@ export default function ToastProvider({ children } : {children: React.ReactNode}
       ))}
       </AnimatePresence>
     </aside>
-    <ToasterContext.Provider value={{
+    <ToastContext.Provider value={{
       newToast: (type, message, title, timeout) => {
         let tid = "";
         while (toasts.find((v) => v.id == tid)) {
@@ -65,7 +69,7 @@ export default function ToastProvider({ children } : {children: React.ReactNode}
       }
     }}>
       {children}
-    </ToasterContext.Provider>
+    </ToastContext.Provider>
     </>
   )
 }

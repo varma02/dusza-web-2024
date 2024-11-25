@@ -1,12 +1,12 @@
 import { Navbar, NavbarBrand, NavbarMenuToggle, NavbarMenuItem, NavbarMenu, NavbarContent, NavbarItem, Link, Image, Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
 import { MdAccountCircle, MdKey, MdLogout } from "react-icons/md";
 import { useHref } from "@remix-run/react";
-import { useContext, useState } from "react";
-import { ToasterContext } from "./ToastProvider";
+import { useState } from "react";
+import { useToaster } from "./ToastProvider";
 
 export default function MyNavbar() {
 
-  const { newToast } = useContext(ToasterContext);
+  const { newToast } = useToaster();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const href = useHref("/");
 
@@ -33,7 +33,7 @@ export default function MyNavbar() {
 
       <NavbarContent justify="start">
         <NavbarBrand as={Link} href="/" className="gap-4 text-foreground">
-          <Image height="2.5rem" src="logo-min.webp" alt="AI generált logo" />
+          <Image height="2.5rem" src="/logo-min.webp" alt="AI generált logo" />
           <h1 className="font-bold text-inherit">Dusza VJF</h1>
         </NavbarBrand>
       </NavbarContent>
