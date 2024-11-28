@@ -142,3 +142,12 @@ export const handleTeamEdit = async ({
     }
   }
 }
+
+export const loadTask = async () => {
+  const session = await auth()
+
+  const user = await prisma.user.findUnique({ where: { id: session?.user.id }, include: { team: true } })
+  const category = await prisma.category.findUnique({ where: { id: user?.team?.category_id } })
+
+  return category
+}

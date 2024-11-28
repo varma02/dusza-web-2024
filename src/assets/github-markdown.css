@@ -35,7 +35,6 @@
     --color-fg-default: #c9d1d9;
     --color-fg-muted: #8b949e;
     --color-fg-subtle: #484f58;
-    --color-canvas-default: #0d1117;
     --color-canvas-subtle: #161b22;
     --color-border-default: #30363d;
     --color-border-muted: #21262d;
@@ -91,7 +90,6 @@
     --color-fg-default: #24292f;
     --color-fg-muted: #57606a;
     --color-fg-subtle: #6e7781;
-    --color-canvas-default: #ffffff;
     --color-canvas-subtle: #f6f8fa;
     --color-border-default: #d0d7de;
     --color-border-muted: hsl(210, 18%, 87%);
@@ -149,7 +147,6 @@ body[data-color-mode*='dark'] {
   --color-fg-default: #c9d1d9;
   --color-fg-muted: #8b949e;
   --color-fg-subtle: #484f58;
-  --color-canvas-default: #0d1117;
   --color-canvas-subtle: #161b22;
   --color-border-default: #30363d;
   --color-border-muted: #21262d;
@@ -198,7 +195,6 @@ body[data-color-mode*='light'] {
   --color-fg-default: #24292f;
   --color-fg-muted: #57606a;
   --color-fg-subtle: #6e7781;
-  --color-canvas-default: #ffffff;
   --color-canvas-subtle: #f6f8fa;
   --color-border-default: #d0d7de;
   --color-border-muted: hsl(210, 18%, 87%);
@@ -215,7 +211,6 @@ body[data-color-mode*='light'] {
   line-height: 1.5;
   word-wrap: break-word;
   color: var(--color-fg-default);
-  background-color: var(--color-canvas-default);
 }
 .react-markdown details,
 .react-markdown figcaption,
@@ -280,7 +275,6 @@ body[data-color-mode*='light'] {
   border-style: none;
   max-width: 100%;
   box-sizing: content-box;
-  background-color: var(--color-canvas-default);
 }
 .react-markdown code,
 .react-markdown kbd,
@@ -670,7 +664,6 @@ body[data-color-mode*='light'] {
   border: 1px solid var(--color-border-default);
 }
 .react-markdown table tr {
-  background-color: var(--color-canvas-default);
   border-top: 1px solid var(--color-border-muted);
 }
 .react-markdown table tr:nth-child(2n) {
@@ -834,7 +827,6 @@ body[data-color-mode*='light'] {
 .react-markdown .csv-data .blob-num {
   padding: 10px 8px 9px;
   text-align: right;
-  background: var(--color-canvas-default);
   border: 0;
 }
 .react-markdown .csv-data tr {
@@ -928,12 +920,10 @@ body[data-color-mode*='light'] {
 }
 .react-markdown pre:hover .copied:hover {
   background: var(--color-prettylights-syntax-entity-tag);
-  color: var(--color-canvas-default);
 }
 .react-markdown pre:hover .copied:active,
 .react-markdown pre .copied.active {
   background: var(--color-copied-active-bg);
-  color: var(--color-canvas-default);
 }
 .react-markdown pre .active .octicon-copy {
   display: none;
