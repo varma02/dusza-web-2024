@@ -15,7 +15,7 @@ Readonly<{children: React.ReactNode;}>) {
   return (
     <SessionProvider>
       <html lang="hu" className="dark">
-        <body>
+        <body className="overflow-x-hidden">
           <NextTopLoader
             color="hsl(var(--nextui-primary) / var(--nextui-primary-opacity, 1))"
             initialPosition={0.08}
@@ -35,7 +35,7 @@ Readonly<{children: React.ReactNode;}>) {
             {children}
           </Providers>
           
-          <footer className="mt-20 bg-content1 w-screen p-6 gap-2 flex items-center text-foreground/70">
+          <footer className="mt-20 bg-content1 w-full p-6 gap-2 flex items-center text-foreground/70">
             <div className="flex gap-4">
               <Link showAnchorIcon color="foreground" href="https://github.com/varma02/dusza-web-2024">Github</Link>
             </div>
