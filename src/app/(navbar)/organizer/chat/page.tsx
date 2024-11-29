@@ -1,4 +1,4 @@
-import { Button, Card, CardBody, CardFooter, Input, Textarea } from "@nextui-org/react";
+import { Button, Card, CardBody, CardFooter, Textarea } from "@nextui-org/react";
 import { MdSend } from "react-icons/md";
 
 export default function ChatPage() {
@@ -48,7 +48,7 @@ export default function ChatPage() {
                 KandOS - {(new Date("2024-09-10T11:23:14")).toLocaleString('hu')}
               </span>
               <span className="text-lg bg-content2 p-2 rounded-lg text-wrap max-w-[70%] w-max">
-                Valami nem jó he'
+                Valami nem jó he&apos;
               </span>
             </li>
             <li className="w-full flex flex-col p-2 gap-2 items-end">
@@ -62,7 +62,7 @@ export default function ChatPage() {
           </ul>
         </CardBody>
         <CardFooter className="flex-row gap-4">
-          <Textarea minRows={1} placeholder="Írd ide az üzeneted..." />
+          <Textarea minRows={1} maxRows={5} placeholder="Írd ide az üzeneted..." />
           <Button isIconOnly><MdSend/></Button>
         </CardFooter>
       </Card>

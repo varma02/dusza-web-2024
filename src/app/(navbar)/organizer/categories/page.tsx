@@ -1,9 +1,9 @@
 'use client'
 
 import { handleCategoryDelete, handleCategoryUpdate, handleProgrammingLanguageDelete, handleProgrammingLanguageUpdate, organizerLoadCategories } from "@/actions/organizerActions";
-import { Button, Card, DatePicker, DateValue, Input, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Spinner, useDisclosure } from "@nextui-org/react";
+import { Button, Card, DatePicker, DateValue, Divider, Input, Listbox, ListboxItem, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Spinner, Textarea, useDisclosure } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
-import { MdAdd, MdChevronRight, MdDelete, MdSave, MdTextSnippet } from "react-icons/md";
+import { MdAdd, MdChevronRight, MdClose, MdDelete, MdDescription, MdSave, MdTextSnippet } from "react-icons/md";
 import { fromDate } from "@internationalized/date";
 import { ToasterContext } from "@/components/ToasterProvider";
 
@@ -40,9 +40,9 @@ export default function CategoriesPage() {
   useEffect(() => fetchCategories(), [])
 
   return (
-    <main className="flex lg:flex-row flex-col gap-6 p-2">
-      <div className="flex flex-col flex-1 gap-6 lg:min-h-[50vh]">
-        <h1 className="text-3xl font-bold mt-10">Kategóriák</h1>
+    <main className="flex flex-wrap gap-6 p-2">
+      <h1 className="text-3xl font-bold mt-10 w-full">Kategóriák</h1>
+      <div className="flex flex-col gap-6 lg:min-h-[80vh] w-1/3">
         <Card className="p-2 flex-1">
           {categories.length ? (
           <Listbox 
@@ -78,6 +78,30 @@ export default function CategoriesPage() {
           .finally(() => fetchCategories());
         }}>
           <input type="hidden" name="id" value={[...selectedCategory][0]} />
+          <input type="hidden" name="valid_until" value={categoryDate?.toString()} />
+          <input type="hidden" name="name" value={categoryName} />
+          <Button onPress={confirmModal.onOpen}
+            className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
+            isIconOnly 
+            color="danger">
+              <MdDelete />
+          </Button>
+          <Button 
+            type="submit"
+            className="text-lg flex-1" 
+            color="primary" 
+            startContent={<MdSave />}>
+              Mentés
+          </Button>
+        </form>
+      </div>
+
+      <div className="flex flex-col flex-1 gap-6">
+        <div className="flex gap-4 items-center">
+          <h3 className="text-xl font-bold">Kategória</h3>
+          <Divider className="flex-1" />
+        </div>
+        <div className="flex flex-wrap gap-4">
           <Input 
             isRequired 
             value={categoryName}
@@ -97,27 +121,13 @@ export default function CategoriesPage() {
             classNames={{base: "w-auto lg:w-auto w-full"}} 
             label="Határidő" 
             labelPlacement="outside" />
-          <div className="flex lg:flex-none flex-1 gap-4">
-            <Button 
-              type="submit"
-              className="text-lg" 
-              color="primary" 
-              startContent={<MdSave />}>
-                Mentés
-            </Button>
-            <Button onPress={confirmModal.onOpen}
-              className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
-              isIconOnly 
-              color="danger">
-                <MdDelete />
-            </Button>
-          </div>
-        </form>
-      </div>
+        </div>
 
-      <div className="flex flex-col flex-1 gap-6 lg:min-h-[50vh]">
-        <h1 className="text-3xl font-bold mt-10">Programozási környezetek</h1>
-        <Card className="p-2 flex-1">
+        <div className="flex gap-4 items-center">
+          <h3 className="text-xl font-bold text-nowrap">Programozási környezetek</h3>
+          <Divider className="flex-1" />
+        </div>
+        <Card className="p-2 min-h-52">
           {categories.length ? (
           <Listbox 
               variant="flat"
@@ -179,6 +189,40 @@ export default function CategoriesPage() {
             </Button>
           </div>
         </form>
+      
+        <div className="flex gap-4 items-center">
+          <h3 className="text-xl font-bold">Feladat</h3>
+          <Divider className="flex-1" />
+        </div>
+        <div className="flex flex-col gap-4">
+          <Textarea required name="description" 
+          labelPlacement="outside" maxRows={10}
+          label="Feladat szövege (Markdown formázás)"
+          placeholder="Lorem ipsum dolor sit amet..."/>
+          <label htmlFor="attachments" className="text-small -mb-2">Csatolmányok</label>
+          <div className="flex flex-wrap gap-4">
+            <Card className="p-2 pl-4 flex-row items-center gap-2">
+              <MdDescription />
+              Attachment1.pdf
+              <Button color="danger" variant="light" isIconOnly><MdClose/></Button>
+            </Card>
+            <Card className="p-2 pl-4 flex-row items-center gap-2">
+              <MdDescription />
+              Attachment2.txt
+              <Button color="danger" variant="light" isIconOnly><MdClose/></Button>
+            </Card>
+            <Card className="p-2 pl-4 flex-row items-center gap-2">
+              <MdDescription />
+              Attachment3.jpeg
+              <Button color="danger" variant="light" isIconOnly><MdClose/></Button>
+            </Card>
+            <div className="relative flex gap-2 p-4 items-center justify-center border-2 border-dashed border-zinc-600 hover:border-primary transition-colors rounded-lg">
+              <MdAdd /> Fájl hozzáadása
+              <input type="file" name="attachments" id="attachments" placeholder="Csatolmányok hozzáadása"
+              className="opacity-0 absolute z-50 top-0 left-0 w-full h-full cursor-pointer" />
+            </div>
+          </div>
+        </div>
       </div>
 
       <Modal isOpen={confirmModal.isOpen} onOpenChange={confirmModal.onOpenChange} isDismissable={false} isKeyboardDismissDisabled={true}>
