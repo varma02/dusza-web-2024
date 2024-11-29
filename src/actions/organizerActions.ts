@@ -17,7 +17,7 @@ export async function organizerLoadCategories() {
 }
 
 export async function organizerLoadMessages() {
-  const messages = await prisma.message.findMany({ orderBy: { created_at: "asc" } });
+  const messages = await prisma.message.findMany({ orderBy: { created_at: "asc" }, include: { author: true } });
   const teams = await prisma.team.findMany()
 
   return { messages, teams };

@@ -2,7 +2,7 @@
 
 import { handleSendMessage, organizerLoadMessages } from "@/actions/organizerActions";
 import { Button, Card, CardBody, CardFooter, Spinner, Textarea } from "@nextui-org/react";
-import { Message, Team } from "@prisma/client";
+import { Message, Team, User } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { MdSend } from "react-icons/md";
@@ -55,7 +55,7 @@ export default function ChatPage() {
                     (message.author_id === currentTeam.user_id || message.recipient_id === currentTeam.user_id) &&
                     <li key={crypto.randomUUID()} className={`w-full flex flex-col p-2 gap-2 ${message.author_id === session?.user.id && "items-end"}`}>
                       <span className="text-md text-foreground-500">
-                        {message.author_id === currentTeam.user_id ? currentTeam.name : session?.user.name} - {(new Date(message.created_at)).toLocaleString('hu')}
+                        {message.author_id === currentTeam.user_id ? currentTeam.name : (message.author as User).username} - {(new Date(message.created_at)).toLocaleString('hu')}
                       </span>
                       <span className={`text-lg bg-content2 p-2 rounded-lg text-wrap ${message.author_id === session?.user.id && "bg-primary-100"} max-w-[70%] w-max`}>
                         {message.message}
