@@ -60,8 +60,8 @@ export default function OrganizerRegistrations() {
         initial_visible={["name", "category", "school", "programming_language", "approved"]} 
         actions={[
           {
-            name: "Hiánypótlás", 
-            description: "Hiánypótlási kérelem küldése a kijelölt csapatoknak", 
+            name: "Üzenet", 
+            description: "Üzenet küldése a kijelölt csapatoknak", 
             icon: <MdTextSnippet size="1.5rem" />, 
             handler: (s) => {setSelected(s); hianypotlasModal.onOpenChange()}
           },

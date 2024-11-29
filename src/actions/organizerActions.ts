@@ -1,5 +1,6 @@
 'use server'
 
+import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { parseZonedDateTime } from "@internationalized/date";
 
@@ -62,14 +63,14 @@ export async function handleHiánypótlás(formData: FormData) {
   const selected = JSON.parse(formData.get("selected") as string) as string[];
   const message = formData.get("message") as string;
   
-  const temp = selected.map((team_id) => ({
-    team_id,
+  const session = await auth();
+
+  await prisma.message.createMany({data: await selected.map(async (team_id) => ({
+    recipient_id: (await prisma.user.findFirstOrThrow({where: {team: {id: team_id}}})).id,
+    author_id: session!.user.id!,
     message,
-    type: "hiánypótlás"
-  }))
-  
-  await prisma.notifications.createMany({data: [...temp]});
-  await prisma.team.updateMany({where: {id: {in: selected}}, data: {approved: false}});
+  }))});
+  // await prisma.team.updateMany({where: {id: {in: selected}}, data: {approved: false}});
 }
 
 export async function handleTeamDelete(data: FormData) {
