@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `Category` ADD COLUMN `task` VARCHAR(5000) NOT NULL DEFAULT '';

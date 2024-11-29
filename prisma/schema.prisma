@@ -49,6 +49,7 @@ model TeamMember {
 model Category {
   id   String @id @default(uuid())
   name String
+  task String @db.VarChar(5000) @default("")
   valid_from DateTime
   valid_until DateTime
   created_at DateTime @default(now())

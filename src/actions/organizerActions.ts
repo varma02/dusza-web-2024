@@ -18,11 +18,12 @@ export async function organizerLoadCategories() {
 export async function handleCategoryUpdate(data: FormData) {
   const id = data.get("id") as string;
   const name = data.get("name") as string;
+  const task = data.get("task") as string;
   const valid_until = parseZonedDateTime(data.get("valid_until") as string).toDate();
   if (id == "new_category") {
-    await prisma.category.create({data: {name, valid_until, valid_from: new Date()}});
+    await prisma.category.create({data: {name, task, valid_until, valid_from: new Date()}});
   } else {
-    await prisma.category.update({where: {id}, data: {name, valid_until}});
+    await prisma.category.update({where: {id}, data: {name, task, valid_until}});
   }
 }
 

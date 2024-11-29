@@ -3,7 +3,13 @@ const prisma = new PrismaClient()
 
 async function main() {
   const web = await prisma.category.create({data: {
-    name: "Webfejlesztés", 
+    name: "Webfejlesztés",
+    task: `# Dusza Web 2024 verseny projekt - KandOS projekt
+    Mint minden verseny szervezésekor, igy nálunk is fontos a jelentkező csapatok adatainak 
+    összegyűjtése,  valamint  egyszerű  kezelése.  Jelenleg  ez  jelentkezési  lapok  kitöltésével  és 
+    emailben való elküldésével van megoldva, amely nem a legideálisabb megoldás. Igy szeretnénk 
+    egy  mind  a  jelentkezőknek  mind  a  szervezőknek  egy  könnyebb  felületet  létrehozni. A  ti 
+    feladatotok lesz egy erre alkalmas web vagy mobil alkalmazás elkészítése.`,
     valid_from: new Date("2021-09-01"), 
     valid_until: new Date("2024-11-20"),
     programmingLanguages: {

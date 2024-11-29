@@ -19,12 +19,6 @@ const TaskPage = () => {
       .then(data => setTask(data))
   }, [])
 
-  const markdown = `# Dusza Web 2024 verseny projekt - KandOS projekt
-Mint minden verseny szervezésekor, igy nálunk is fontos a jelentkező csapatok adatainak 
-összegyűjtése,  valamint  egyszerű  kezelése.  Jelenleg  ez  jelentkezési  lapok  kitöltésével  és 
-emailben való elküldésével van megoldva, amely nem a legideálisabb megoldás. Igy szeretnénk 
-egy  mind  a  jelentkezőknek  mind  a  szervezőknek  egy  könnyebb  felületet  létrehozni. A  ti 
-feladatotok lesz egy erre alkalmas web vagy mobil alkalmazás elkészítése.`
   const attachments = [ "test-file.txt" ]
 
   const addFile = (event: ChangeEvent) => {
@@ -44,10 +38,10 @@ feladatotok lesz egy erre alkalmas web vagy mobil alkalmazás elkészítése.`
   }
 
   return (
-    <main className="h-full flex flex-col gap-4">
+    <main className="h-full flex flex-col gap-6 p-2">
       <Card className="border-0 shadow-none bg-transparent">
         <CardBody>
-          <Markdown className={"react-markdown"}>{markdown}</Markdown>
+          <Markdown className={"react-markdown"}>{task?.task}</Markdown>
         </CardBody>
         <CardFooter className="flex flex-col items-baseline gap-4">
           {
@@ -61,7 +55,7 @@ feladatotok lesz egy erre alkalmas web vagy mobil alkalmazás elkészítése.`
                       <span>{attachment}</span>
                       <Button
                         size="sm"
-                        variant="flat"
+                        variant="light"
                         isIconOnly
                       >
                         <MdFileDownload />

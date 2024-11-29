@@ -16,6 +16,7 @@ export default function CategoriesPage() {
 
   const [categoryDate, setCategoryDate] = useState<DateValue>();
   const [categoryName, setCategoryName] = useState<string>();
+  const [categoryTask, setCategoryTask] = useState<string>();
   const [programmingLanguageName, setProgrammingLanguageName] = useState<string>();
   
   const confirmModal = useDisclosure();
@@ -25,6 +26,7 @@ export default function CategoriesPage() {
   useEffect(() => {
     const selected = categories.find((v) => new Set(selectedCategory).has(v.id));
     setCategoryName(selected?.name || "");
+    setCategoryTask(selected?.task || "");
     setCategoryDate(fromDate(selected?.valid_until || new Date(), "Europe/Budapest"));
   }, [selectedCategory, categories])
 
@@ -80,6 +82,7 @@ export default function CategoriesPage() {
           <input type="hidden" name="id" value={[...selectedCategory][0]} />
           <input type="hidden" name="valid_until" value={categoryDate?.toString()} />
           <input type="hidden" name="name" value={categoryName} />
+          <input type="hidden" name="task" value={categoryTask} />
           <Button onPress={confirmModal.onOpen}
             className="text-lg w-auto aspect-square bg-content2 hover:bg-danger" 
             isIconOnly 
@@ -195,7 +198,7 @@ export default function CategoriesPage() {
           <Divider className="flex-1" />
         </div>
         <div className="flex flex-col gap-4">
-          <Textarea required name="description" 
+          <Textarea required name="description" value={categoryTask} onValueChange={setCategoryTask} 
           labelPlacement="outside" maxRows={10}
           label="Feladat szövege (Markdown formázás)"
           placeholder="Lorem ipsum dolor sit amet..."/>
