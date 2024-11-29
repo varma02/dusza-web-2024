@@ -17,10 +17,11 @@ export async function organizerLoadCategories() {
 }
 
 export async function organizerLoadMessages() {
+  const session = await auth()
   const messages = await prisma.message.findMany({ orderBy: { created_at: "asc" }, include: { author: true } });
   const teams = await prisma.team.findMany()
 
-  return { messages, teams };
+  return { messages, teams, user: session?.user };
 }
 
 export async function handleSendMessage(data: FormData) {
@@ -72,20 +73,6 @@ export async function organizerLoadRegistrations() {
     include: {category: true, school: true, programming_language: true, members: true}
   });
   return teams;
-}
-
-export async function handleHiánypótlás(formData: FormData) {
-  const selected = JSON.parse(formData.get("selected") as string) as string[];
-  const message = formData.get("message") as string;
-  
-  const session = await auth();
-
-  await prisma.message.createMany({data: await selected.map(async (team_id) => ({
-    recipient_id: (await prisma.user.findFirstOrThrow({where: {team: {id: team_id}}})).id,
-    author_id: session!.user.id!,
-    message,
-  }))});
-  // await prisma.team.updateMany({where: {id: {in: selected}}, data: {approved: false}});
 }
 
 export async function handleTeamDelete(data: FormData) {

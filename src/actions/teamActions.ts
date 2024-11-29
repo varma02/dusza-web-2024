@@ -27,7 +27,7 @@ export const loadMessages = async () => {
   const messagesSent = await prisma.message.findMany({ where: { author_id: session?.user.id }, orderBy: { created_at: "asc" } });
   const messagesReceived = await prisma.message.findMany({ where: { recipient_id: session?.user.id }, orderBy: { created_at: "asc" }, include: { author: true } });
 
-  return { messages: [ ...messagesSent, ...messagesReceived ].sort((a, b) => a.created_at - b.created_at) };
+  return { messages: [ ...messagesSent, ...messagesReceived ].sort((a, b) => a.created_at.getTime() - b.created_at.getTime()), user: session?.user };
 }
 
 export async function handleSendMessage(data: FormData) {
