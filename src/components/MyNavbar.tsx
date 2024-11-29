@@ -33,7 +33,8 @@ export default function MyNavbar({ user }: { user: User | undefined }) {
     {href: "/team", label: "Irányítópult", roles: [ UserRole.TeamMember ]},
     {href: "/team/task", label: "Feladat", roles: [ UserRole.TeamMember ]},
     {href: "/team/notifications", label: "Hiánypótlás", roles: [ UserRole.TeamMember ]},
-    {href: "/school", label: "Jelentkezések", roles: [ UserRole.School ]}
+    {href: "/school", label: "Jelentkezések", roles: [ UserRole.School ]},
+    {href: "/organizer/chat", label: "Chat", roles: [ UserRole.Organizer ]},
   ]
 
   const { register, handleSubmit, formState: { isSubmitting, errors }, reset } = useForm<z.infer<typeof changePasswordSchema>>({

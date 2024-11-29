@@ -20,6 +20,7 @@ const NotificationsPage = async () => {
           <h2 className="w-full text-xl text-center font-semibold">Üzenetek</h2>
         </CardHeader>
         <CardBody className="flex flex-col gap-4 flex-1">
+          <ul>
           {
             notifications.length > 0 ? (
               notifications.map(notification => (
@@ -41,7 +42,6 @@ const NotificationsPage = async () => {
               </div>
             )
           }
-          <ul>
           </ul>
         </CardBody>
       </Card>
