@@ -16,6 +16,23 @@ export async function organizerLoadCategories() {
   return categories;
 }
 
+export async function organizerLoadMessages() {
+  const session = await auth();
+  const messagesSent = await prisma.message.findMany({ where: { author_id: session?.user.id }, orderBy: { created_at: "asc" } });
+  const messagesReceived = await prisma.message.findMany({ where: { recipient_id: undefined }, orderBy: { created_at: "asc" } });
+  const teams = await prisma.team.findMany()
+
+  return { messages: [ ...messagesSent, ...messagesReceived ], teams };
+}
+
+export async function handleSendMessage(data: FormData) {
+  const author_id = data.get("author_id") as string
+  const recipient_id = data.get("recipient_id") as string
+  const message = data.get("message") as string
+
+  await prisma.message.create({ data: { author_id, recipient_id, message } })
+}
+
 export async function handleCategoryUpdate(data: FormData) {
   const id = data.get("id") as string;
   const name = data.get("name") as string;

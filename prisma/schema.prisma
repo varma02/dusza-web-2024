@@ -93,7 +93,7 @@ model Message {
   message   String
   author_id String
   author    User @relation(fields: [author_id], references: [id], name: "AuthorRelation")
-  recipient_id String
-  recipient    User @relation(fields: [recipient_id], references: [id], name: "RecipientRelation")
+  recipient_id String?
+  recipient    User? @relation(fields: [recipient_id], references: [id], name: "RecipientRelation")
   created_at DateTime @default(now())
 }

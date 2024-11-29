@@ -22,6 +22,21 @@ export const loadTeams = async () => {
   return { team, teamMembers: [ ...fixMembers, subMember ], categories: categories.filter(categ => categ.valid_until >= new Date() || categ.id === team?.category_id), category, progLangs, progLang }
 }
 
+export const loadMessages = async () => {
+  const session = await auth();
+  const messagesSent = await prisma.message.findMany({ where: { author_id: session?.user.id }, orderBy: { created_at: "asc" } });
+  const messagesReceived = await prisma.message.findMany({ where: { recipient_id: session?.user.id }, orderBy: { created_at: "asc" }, include: { author: true } });
+
+  return { messages: [ ...messagesSent, ...messagesReceived ].sort((a, b) => a.created_at - b.created_at) };
+}
+
+export async function handleSendMessage(data: FormData) {
+  const author_id = data.get("author_id") as string
+  const message = data.get("message") as string
+
+  await prisma.message.create({ data: { author_id, message } })
+}
+
 export const handleTeamEdit = async ({
   id,
   teamMembers,
