@@ -17,12 +17,10 @@ export async function organizerLoadCategories() {
 }
 
 export async function organizerLoadMessages() {
-  const session = await auth();
-  const messagesSent = await prisma.message.findMany({ where: { author_id: session?.user.id }, orderBy: { created_at: "asc" } });
-  const messagesReceived = await prisma.message.findMany({ where: { recipient_id: undefined }, orderBy: { created_at: "asc" } });
+  const messages = await prisma.message.findMany({ orderBy: { created_at: "asc" } });
   const teams = await prisma.team.findMany()
 
-  return { messages: [ ...messagesSent, ...messagesReceived ], teams };
+  return { messages, teams };
 }
 
 export async function handleSendMessage(data: FormData) {
