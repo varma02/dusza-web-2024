@@ -1,8 +1,8 @@
 'use client'
 
 import { Bar, BarChart, Rectangle, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-import { Card, CardBody, CardHeader, Link, CardFooter, Button, ScrollShadow, CheckboxGroup, Checkbox, Spinner, RadioGroup, Radio, Divider, Select, SelectItem, Selection, useDisclosure, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Textarea, Input } from "@nextui-org/react";
-import { MdAdd, MdChat, MdCheck, MdChevronRight, MdClose, MdDescription, MdEdit, MdFileDownload, MdFilterAltOff, MdSettings } from "react-icons/md";
+import { Card, CardBody, CardHeader, Link, CardFooter, Button, ScrollShadow, CheckboxGroup, Checkbox, Spinner, RadioGroup, Radio, Divider, Select, SelectItem, Selection } from "@nextui-org/react";
+import { MdChat, MdCheck, MdChevronRight, MdFileDownload, MdFilterAltOff, MdSettings } from "react-icons/md";
 import { useEffect, useMemo, useState } from "react";
 import { organizerLoadDashboard } from "@/actions/organizerActions";
 import ListboxSelector from "@/components/ListboxSelector";
@@ -16,9 +16,6 @@ export default function OrganizerDashboard() {
   const [data, setData] = useState<ReturnType<typeof organizerLoadDashboard> extends Promise<infer R> ? R : never | null>();
 
   const [exportSelectedFormat, setExportSelectedFormat] = useState<Selection>(new Set(['csv']));
-
-  const [feladatSzerkSelected, setFeladatSzerkSelected] = useState<string>();
-  const feladatSzerkModal = useDisclosure();
 
   const filteredData = useMemo(() => {
     if (!data) return null;

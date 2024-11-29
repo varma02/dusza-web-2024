@@ -4,7 +4,7 @@ import TableView from "@/components/TableView";
 import { MdCheckCircle, MdDelete, MdTextSnippet, MdUnpublished } from "react-icons/md";
 import { Button, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader, Selection, Textarea, useDisclosure } from "@nextui-org/react";
 import { useContext, useEffect, useState } from "react";
-import { handleHiánypótlás, handleTeamApprove, handleTeamDelete, handleTeamDisapprove, organizerLoadRegistrations } from "@/actions/organizerActions";
+import { handleSendMessages, handleTeamApprove, handleTeamDelete, handleTeamDisapprove, organizerLoadRegistrations } from "@/actions/organizerActions";
 import { ToasterContext } from "@/components/ToasterProvider";
 
 const columns = [
@@ -92,7 +92,7 @@ export default function OrganizerRegistrations() {
             name: "Törlés", 
             description: "A kijelölt regisztrációk törlése", 
             icon: <MdDelete size="1.5rem" />, 
-            handler: (s) => {setSelected(s); hianypotlasModal.onOpenChange()}
+            handler: (s) => {setSelected(s); torlesModal.onOpenChange()}
           },
         ]}
       />
@@ -106,14 +106,14 @@ export default function OrganizerRegistrations() {
         <ModalContent>
           {(onClose) => (
             <form className="contents" action={(data:FormData) => {
-              handleHiánypótlás(data)
-              .then(() => newToast("Hiánypótlás sikeresen elküldve", "success", "", 5000),
-                () => newToast("Nem sikerült elüldeni a hiánypótlásokat", "danger", "Hiba történt", 5000)
+              handleSendMessages(data)
+              .then(() => newToast("Üzenet sikeresen elküldve", "success", "", 5000),
+                () => newToast("Nem sikerült elüldeni az üzeneteket", "danger", "Hiba történt", 5000)
               ).finally();
               onClose();
             }}>
               <ModalHeader className="flex flex-col gap-1">
-                Új hiánypótlás
+                Üzenet küldése
               </ModalHeader>
 
               <ModalBody>

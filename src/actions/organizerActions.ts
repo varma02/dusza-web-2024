@@ -32,6 +32,16 @@ export async function handleSendMessage(data: FormData) {
   await prisma.message.create({ data: { author_id, recipient_id, message } })
 }
 
+export async function handleSendMessages(data: FormData) {
+  const author_id = (await auth())!.user.id!
+  const teams = JSON.parse(data.get("selected") as string) as string[]
+  const message = data.get("message") as string
+
+  await prisma.message.createMany({ data: teams.map(
+    (team_id) => ({ message, author_id, recipient: {connect: {team: {id: team_id }}} })
+  ) })
+}
+
 export async function handleCategoryUpdate(data: FormData) {
   const id = data.get("id") as string;
   const name = data.get("name") as string;
