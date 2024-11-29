@@ -22,6 +22,9 @@ model User {
 
   school School?
   team Team?
+
+  messages_authored Message[] @relation(name: "AuthorRelation")
+  messages_received Message[] @relation(name: "RecipientRelation")
 }
 
 model School {
@@ -78,7 +81,6 @@ model Team {
   category Category @relation(fields: [category_id], references: [id])
   programming_language_id String
   programming_language ProgrammingLanguage @relation(fields: [programming_language_id], references: [id])
-  notifications Notifications[]
   created_at DateTime @default(now())
   approved Boolean @default(false)
   approved_by_school Boolean @default(false)
@@ -86,12 +88,12 @@ model Team {
   user User @relation(fields: [user_id], references: [id])
 }
 
-model Notifications {
+model Message {
   id        String @id @default(uuid())
-  type      String
   message   String
-  metadata  Json?
-  team_id   String
-  team      Team   @relation(fields: [team_id], references: [id])
+  author_id String
+  author    User @relation(fields: [author_id], references: [id], name: "AuthorRelation")
+  recipient_id String
+  recipient    User @relation(fields: [recipient_id], references: [id], name: "RecipientRelation")
   created_at DateTime @default(now())
 }
